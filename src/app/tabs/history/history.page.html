@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">History</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item *ngFor="let trip of trips">
+      <ion-label>
+        <h2>{{ trip.destination }}</h2>
+        <p>Date: {{ trip.date }} | Status: {{ trip.status }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      My Vehicle
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">My Vehicle</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item *ngFor="let vehicle of vehicles">
+      <ion-label>
+        <h2>{{ vehicle.make }} {{ vehicle.model }}</h2>
+        <p>Year: {{ vehicle.year }} | License: {{ vehicle.licensePlate }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

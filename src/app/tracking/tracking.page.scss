@@ -1,0 +1,19 @@
+.container {
+  padding: 16px;
+}
+
+.map-placeholder {
+  height: 200px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-style: italic;
+  color: #666;
+}
+
+ion-card {
+  margin-bottom: 16px;
+}
