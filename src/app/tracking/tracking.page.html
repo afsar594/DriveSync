@@ -14,26 +14,50 @@
   </ion-header>
 
   <div class="container">
-    <ion-card>
+    <!-- Mapbox Container -->
+    <ion-card class="map-card">
       <ion-card-header>
-        <ion-card-title>Map View</ion-card-title>
+        <ion-card-title>Live Vehicle Location</ion-card-title>
       </ion-card-header>
-      <ion-card-content>
-        <div class="map-placeholder">
-          [Map Placeholder - Vehicle Location Tracking]
-        </div>
+      <ion-card-content class="map-content">
+        <div #mapContainer id="map" class="mapbox-map"></div>
       </ion-card-content>
     </ion-card>
 
-    <ion-card>
+    <!-- Current Location Info -->
+    <ion-card *ngIf="currentLocation">
       <ion-card-header>
-        <ion-card-title>Current Location</ion-card-title>
+        <ion-card-title>Current Status</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p>Vehicle: Toyota Camry</p>
-        <p>Location: 123 Main St, City, State</p>
-        <p>Speed: 45 mph</p>
-        <p>Status: Moving</p>
+        <div class="info-row">
+          <span class="label">Vehicle:</span>
+          <span class="value">Toyota Camry (Silver)</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Latitude:</span>
+          <span class="value">{{ currentLocation.latitude.toFixed(6) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Longitude:</span>
+          <span class="value">{{ currentLocation.longitude.toFixed(6) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Speed:</span>
+          <span class="value">{{ currentLocation.speed }} mph</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Direction:</span>
+          <span class="value">{{ currentLocation.heading.toFixed(1) }}°</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Last Updated:</span>
+          <span class="value">{{ currentLocation.timestamp | date:'HH:mm:ss' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Status:</span>
+          <span class="value status-moving">🟢 Moving</span>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>
