@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
+      <ion-icon name="bar-chart" slot="start"></ion-icon>
       Dashboard
     </ion-title>
   </ion-toolbar>
@@ -9,39 +10,168 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Dashboard</ion-title>
+      <ion-title size="large">
+        <ion-icon name="bar-chart" slot="start"></ion-icon>
+        Dashboard
+      </ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div class="container">
-    <h1>Welcome to DriveSync</h1>
-    <p>Your vehicle management dashboard</p>
+  <div class="dashboard-container">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h1>Welcome to DriveSync</h1>
+      <p>Your comprehensive vehicle tracking dashboard</p>
+    </div>
 
-    <ion-card>
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <ion-button expand="block" color="primary" (click)="startTracking()" [disabled]="isTracking">
+        <ion-icon name="navigate" slot="start"></ion-icon>
+        {{ isTracking ? 'Tracking Active' : 'Start Tracking' }}
+      </ion-button>
+    </div>
+
+    <!-- Stats Grid -->
+    <ion-grid class="stats-grid">
+      <ion-row>
+        <ion-col size="6">
+          <ion-card class="stat-card">
+            <ion-card-content>
+              <div class="stat-icon">
+                <ion-icon name="car"></ion-icon>
+              </div>
+              <div class="stat-value">{{ stats.totalVehicles || vehicles.length }}</div>
+              <div class="stat-label">Total Vehicles</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card class="stat-card">
+            <ion-card-content>
+              <div class="stat-icon">
+                <ion-icon name="location"></ion-icon>
+              </div>
+              <div class="stat-value">{{ getActiveVehicleCount() }}</div>
+              <div class="stat-label">Active Vehicles</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-card class="stat-card">
+            <ion-card-content>
+              <div class="stat-icon">
+                <ion-icon name="time"></ion-icon>
+              </div>
+              <div class="stat-value">{{ stats.totalTrips || 15 }}</div>
+              <div class="stat-label">Total Trips</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card class="stat-card">
+            <ion-card-content>
+              <div class="stat-icon">
+                <ion-icon name="speedometer"></ion-icon>
+              </div>
+              <div class="stat-value">{{ stats.thisWeekTrips || 5 }}</div>
+              <div class="stat-label">This Week</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Current Location Status -->
+    <ion-card *ngIf="currentLocation" class="location-card">
       <ion-card-header>
-        <ion-card-title>Total Vehicles</ion-card-title>
+        <ion-card-title>
+          <ion-icon name="location" slot="start"></ion-icon>
+          Current Vehicle Status
+        </ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        3 vehicles registered
+        <ion-list>
+          <ion-item>
+            <ion-label>
+              <h3>Speed</h3>
+              <p>{{ formatSpeed(currentLocation.speed) }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h3>Location</h3>
+              <p>{{ currentLocation.latitude.toFixed(4) }}, {{ currentLocation.longitude.toFixed(4) }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h3>Last Update</h3>
+              <p>{{ formatTime(currentLocation.timestamp) }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
       </ion-card-content>
     </ion-card>
 
-    <ion-card>
+    <!-- Vehicles List -->
+    <ion-card class="vehicles-card">
       <ion-card-header>
-        <ion-card-title>Active Tracking</ion-card-title>
+        <ion-card-title>
+          <ion-icon name="car" slot="start"></ion-icon>
+          Your Vehicles
+        </ion-card-title>
+        <ion-button fill="clear" slot="end" (click)="navigateToVehicles()">
+          View All
+        </ion-button>
       </ion-card-header>
       <ion-card-content>
-        2 vehicles currently tracked
+        <ion-list>
+          <ion-item *ngFor="let vehicle of vehicles.slice(0, 3)" button (click)="navigateToVehicles()">
+            <ion-label>
+              <h3>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h3>
+              <p>{{ vehicle.licensePlate }}</p>
+            </ion-label>
+            <ion-chip *ngIf="vehicle.isActive" color="success" slot="end">
+              <ion-icon name="location"></ion-icon>
+              Active
+            </ion-chip>
+            <ion-chip *ngIf="!vehicle.isActive" color="medium" slot="end">
+              Inactive
+            </ion-chip>
+          </ion-item>
+        </ion-list>
       </ion-card-content>
     </ion-card>
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Recent Trips</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        5 trips this week
-      </ion-card-content>
-    </ion-card>
+    <!-- Navigation Cards -->
+    <ion-grid class="nav-grid">
+      <ion-row>
+        <ion-col size="6">
+          <ion-card class="nav-card" button (click)="navigateToTracking()">
+            <ion-card-content>
+              <div class="nav-icon">
+                <ion-icon name="navigate"></ion-icon>
+              </div>
+              <div class="nav-title">Live Tracking</div>
+              <div class="nav-desc">Monitor vehicles in real-time</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card class="nav-card" button (click)="navigateToHistory()">
+            <ion-card-content>
+              <div class="nav-icon">
+                <ion-icon name="time"></ion-icon>
+              </div>
+              <div class="nav-title">Trip History</div>
+              <div class="nav-desc">View past trips and routes</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>
