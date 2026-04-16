@@ -1,40 +1,57 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tracking
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="tracking-content">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tracking</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div #mapContainer id="map" class="full-screen-map"></div>
 
-  <div class="container">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Map View</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="map-placeholder">
-          [Map Placeholder - Vehicle Location Tracking]
-        </div>
-      </ion-card-content>
-    </ion-card>
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Current Location</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Vehicle: Toyota Camry</p>
-        <p>Location: 123 Main St, City, State</p>
-        <p>Speed: 45 mph</p>
-        <p>Status: Moving</p>
-      </ion-card-content>
-    </ion-card>
+  <div class="control-panel">
+    <div class="button-bar">
+      <ion-button
+        *ngIf="!isTracking && !isLoading"
+        (click)="startTracking()"
+        color="success"
+        size="small">
+        ▶️ Real-Time
+      </ion-button>
+      <ion-button
+        *ngIf="!isTracking && !isLoading"
+        (click)="startSimulatedTracking()"
+        color="warning"
+        size="small">
+        🎬 Simulate
+      </ion-button>
+      <ion-button
+        *ngIf="isTracking"
+        (click)="stopTracking()"
+        color="danger"
+        size="small">
+        ⏹️ Stop
+      </ion-button>
+      <ion-button
+        *ngIf="isLoading"
+        disabled="true"
+        color="primary"
+        size="small">
+        ⏳ Loading
+      </ion-button>
+    </div>
+
+  
+    <div class="status-badge">
+      <span *ngIf="!isTracking && !isLoading" class="status-dot stopped"></span>
+      <span *ngIf="isTracking" class="status-dot active"></span>
+      <span *ngIf="isLoading" class="status-dot loading"></span>
+      <span class="status-label">
+        <span *ngIf="!isTracking && !isLoading">Stopped</span>
+        <span *ngIf="isTracking">Tracking</span>
+        <span *ngIf="isLoading">Loading</span>
+      </span>
+    </div>
+
+  
+    <div class="live-info" *ngIf="currentLocation">
+      📍 {{ currentLocation.latitude.toFixed(4) }}, {{ currentLocation.longitude.toFixed(4) }} | 
+      🚗 {{ currentLocation.speed.toFixed(1) }} mph | 
+      🧭 {{ currentLocation.heading.toFixed(0) }}°
+    </div>
   </div>
 </ion-content>
