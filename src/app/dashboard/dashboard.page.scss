@@ -1,17 +1,68 @@
-.container {
-  padding: 16px;
+ion-content {
+  --background: #EEF2F7;
 }
 
-h1 {
+/* HEADER */
+.header {
+  --background: #ffffff;
+  box-shadow: none;
+}
+
+.title {
   text-align: center;
-  margin-bottom: 8px;
+  font-weight: 600;
+  color: #3B82F6;
 }
 
-p {
-  text-align: center;
-  margin-bottom: 24px;
+/* MAP */
+.map-card {
+  margin: 15px;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
-ion-card {
-  margin-bottom: 16px;
+.map-card img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+/* STATUS */
+.status-card {
+  background: #E5EAF3;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.active {
+  background: #60A5FA;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.status-card h2 {
+  margin-top: 10px;
+}
+
+/* VEHICLE */
+.vehicle-card {
+  display: flex;
+  align-items: center;
+  background: #E5EAF3;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.vehicle-card .icon {
+  font-size: 28px;
+  margin-right: 10px;
 }
