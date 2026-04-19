@@ -1,0 +1,65 @@
+.profile-bg {
+  --background: #0b1220;
+  color: #e5e7eb;
+  padding: 16px;
+}
+
+/* 🔹 HEADER */
+.profile-header {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.profile-header img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid #2563eb;
+  margin-bottom: 10px;
+}
+
+.profile-header h2 {
+  margin: 0;
+  color: #f9fafb;
+}
+
+.profile-header p {
+  margin: 4px 0 10px;
+  color: #9ca3af;
+}
+
+/* 🔹 CARD */
+.card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  color: #e5e7eb;
+}
+
+ion-item {
+  --background: transparent;
+  --color: #e5e7eb;
+}
+
+/* 🔹 STATS */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.stats h3 {
+  margin: 0;
+  color: #60a5fa;
+}
+
+.stats span {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* 🔴 LOGOUT */
+.logout {
+  margin-top: 20px;
+}

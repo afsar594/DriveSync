@@ -33,9 +33,16 @@ export const routes: Routes = [
       },
     ],
   },
+{
+  path: 'profile',
+  loadComponent: () =>
+    import('../profile/profile.page').then((m) => m.ProfilePage),
+},
+
   {
     path: '',
     redirectTo: '/tabs/dashboard',
     pathMatch: 'full',
   },
+  
 ];

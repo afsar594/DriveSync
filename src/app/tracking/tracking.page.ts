@@ -1,9 +1,20 @@
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonButton } from '@ionic/angular/standalone';
-import { TrackingService, VehicleLocation, TrackingHistoryItem } from '../services/tracking.service';
+import {
+ IonContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonBackButton,
+  IonButton,
+  IonIcon,
+  IonFab,
+  IonFabButton
+} from '@ionic/angular/standalone';import { TrackingService, VehicleLocation, TrackingHistoryItem } from '../services/tracking.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
 
 // Leaflet global type
 declare var L: any;
@@ -12,8 +23,20 @@ declare var L: any;
   selector: 'app-tracking',
   templateUrl: 'tracking.page.html',
   styleUrls: ['tracking.page.scss'],
-  imports: [CommonModule, IonContent, IonButton],
-})
+imports: [
+    CommonModule,
+  FormsModule,
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonBackButton,
+  IonButton,
+  IonIcon,
+  IonFab,
+  IonFabButton 
+  ]})
 export class TrackingPage implements OnInit, OnDestroy {
   @ViewChild('mapContainer') mapContainer!: ElementRef;
 
@@ -21,10 +44,15 @@ export class TrackingPage implements OnInit, OnDestroy {
   currentLocation: VehicleLocation | null = null;
   vehicleMarker: any;
   isTracking = false;
+  isOnline: boolean = false;
+lastSeen: string = '';
   routePolyline: any;
   trackingPath: [number, number][] = [];
+  totalDistance = 0;
   isLoading = false;
   private destroy$ = new Subject<void>();
+
+  
 
   // Modern GPS Navigator Icon
   private vehicleIcon = L.divIcon({
@@ -208,6 +236,21 @@ export class TrackingPage implements OnInit, OnDestroy {
     }
   }
 
+  recenterMap() {
+  if (this.currentLocation) {
+    this.map.setView(
+      [this.currentLocation.latitude, this.currentLocation.longitude],
+      16
+    );
+  }
+}
+
+getSpeedClass(speed: number) {
+  if (speed < 40) return 'slow';
+  if (speed < 80) return 'normal';
+  return 'fast';
+}
+
   /**
    * Stop tracking
    */
@@ -285,6 +328,10 @@ export class TrackingPage implements OnInit, OnDestroy {
     this.trackingService.vehicleLocation$
       .pipe(takeUntil(this.destroy$))
       .subscribe((location: VehicleLocation) => {
+
+         this.isOnline = true;
+  this.lastSeen = new Date().toLocaleTimeString();
+
         this.ngZone.runOutsideAngular(() => {
           this.currentLocation = location;
 

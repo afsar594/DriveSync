@@ -1,13 +1,23 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      <ion-icon name="bar-chart" slot="start"></ion-icon>
-      Dashboard
-    </ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Dashboard</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="dashboard-container">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">
@@ -17,6 +27,8 @@
     </ion-toolbar>
   </ion-header>
 
+  
+
   <div class="dashboard-container">
     <!-- Welcome Section -->
     <div class="welcome-section">
@@ -24,13 +36,54 @@
       <p>Your comprehensive vehicle tracking dashboard</p>
     </div>
 
+    <!-- 🔥 VEHICLE STATUS CARD -->
+<ion-card class="status-card" *ngIf="currentLocation">
+  <ion-card-content>
+
+    <div class="status-top">
+      <div>
+        <h2>My Vehicle</h2>
+        <span class="status active">● Active</span>
+      </div>
+
+      <ion-icon name="car-outline"></ion-icon>
+    </div>
+
+    <div class="status-info">
+      <p>
+        <ion-icon name="location-outline"></ion-icon>
+        {{ currentLocation.latitude.toFixed(3) }},
+        {{ currentLocation.longitude.toFixed(3) }}
+      </p>
+
+      <p>
+        <ion-icon name="time-outline"></ion-icon>
+        Updated {{ formatTime(currentLocation.timestamp) }}
+      </p>
+    </div>
+
+  </ion-card-content>
+</ion-card>
+
     <!-- Quick Actions -->
     <div class="quick-actions">
-      <ion-button expand="block" color="primary" (click)="startTracking()" [disabled]="isTracking">
-        <ion-icon name="navigate" slot="start"></ion-icon>
-        {{ isTracking ? 'Tracking Active' : 'Start Tracking' }}
-      </ion-button>
-    </div>
+
+  <ion-button expand="block" (click)="startTracking()" [disabled]="isTracking">
+    <ion-icon name="navigate-outline" slot="start"></ion-icon>
+    {{ isTracking ? 'Tracking Active' : 'Start Tracking' }}
+  </ion-button>
+
+  <ion-button expand="block" fill="outline" (click)="navigateToTracking()">
+    <ion-icon name="map-outline" slot="start"></ion-icon>
+    Live Tracking
+  </ion-button>
+
+  <ion-button expand="block" fill="outline" (click)="navigateToHistory()">
+    <ion-icon name="time-outline" slot="start"></ion-icon>
+    View History
+  </ion-button>
+
+</div>
 
     <!-- Stats Grid -->
     <ion-grid class="stats-grid">
@@ -83,6 +136,24 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
+    <!-- 🔥 TODAY STATS -->
+<div class="today-stats">
+  <div>
+    <h4>{{ todayDistance }}</h4>
+    <span>Distance</span>
+  </div>
+
+  <div>
+    <h4>{{ todaySpeed }}</h4>
+    <span>Avg Speed</span>
+  </div>
+
+  <div>
+    <h4>{{ todayStops }}</h4>
+    <span>Stops</span>
+  </div>
+</div>
 
     <!-- Current Location Status -->
     <ion-card *ngIf="currentLocation" class="location-card">
@@ -175,24 +246,6 @@
     </ion-grid>
   </div>
 
-  <!-- STATUS CARD -->
-  <div class="status-card">
-    <div class="top-row">
-      <span>Vehicle Status</span>
-      <span class="active">Active</span>
-    </div>
-    <h2>ABC-1234</h2>
-  </div>
 
-  <!-- VEHICLE INFO -->
-  <div class="vehicle-card">
-    <div class="icon">
-      🚗
-    </div>
-    <div>
-      <h3>Toyota Corolla</h3>
-      <p>123 Main Street, City</p>
-    </div>
-  </div>
-
+</div>
 </ion-content>

@@ -1,0 +1,50 @@
+.login-bg {
+  --background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+
+.login-container {
+  padding: 20px;
+  max-width: 400px;
+  margin: auto;              /* 👈 perfect center */
+  margin-top: 10vh;          /* 👈 top spacing (better than 40%) */
+}
+
+@media (min-width: 768px) {
+  .login-container {
+    margin-top: 12vh;        /* laptop par thoda upar */
+  }
+}
+.logo {
+  text-align: center;
+  color: white;
+  margin-bottom: 30px;
+
+  h2 {
+    margin-top: 10px;
+    font-weight: 600;
+  }
+}
+
+ion-item {
+  margin-bottom: 15px;
+  border-radius: 12px;
+  --background: #1e293b;
+  color: white;
+}
+
+ion-input {
+  color: white;
+}
+
+ion-button {
+  margin-top: 20px;
+  --background: #3b82f6;
+  border-radius: 12px;
+}
+
+.forgot {
+  text-align: center;
+  margin-top: 15px;
+  color: #94a3b8;
+}

@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="login-bg" [fullscreen]="true">
+
+  <div class="login-container">
+
+    <!-- Logo -->
+    <div class="logo">
+      🚗
+      <h2>Vehicle Tracker</h2>
+    </div>
+
+    <!-- Form -->
+    <form [formGroup]="loginForm">
+
+      <ion-item lines="none">
+        <ion-input 
+          placeholder="Email" 
+          formControlName="email">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-input 
+          type="password" 
+          placeholder="Password" 
+          formControlName="password">
+        </ion-input>
+      </ion-item>
+
+      <ion-button expand="block" (click)="login()">
+  Login
+</ion-button>
+
+      <p class="forgot">Forgot Password?</p>
+
+    </form>
+
+  </div>
+
+</ion-content>

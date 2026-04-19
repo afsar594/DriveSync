@@ -1,14 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonMenuButton, IonIcon } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader,
-  IonCardTitle, IonCardContent, IonButton, IonIcon, IonGrid, IonRow,
-  IonCol, IonList, IonItem, IonLabel, IonChip
+  IonCardTitle, IonCardContent, IonButton, IonGrid, IonRow,
+  IonCol, IonList, IonItem, IonLabel, IonChip, IonButtons  
 } from '@ionic/angular/standalone';
 import { VehicleService, Vehicle } from '../services/vehicle.service';
 import { TrackingService, VehicleLocation } from '../services/tracking.service';
+import { MenuController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +21,8 @@ import { TrackingService, VehicleLocation } from '../services/tracking.service';
     CommonModule,
     IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader,
     IonCardTitle, IonCardContent, IonButton, IonIcon, IonGrid, IonRow,
-    IonCol, IonList, IonItem, IonLabel, IonChip
+    IonCol, IonList, IonItem, IonLabel, IonChip , IonButtons,  IonMenuButton
+  
   ],
 })
 export class DashboardPage implements OnInit, OnDestroy {
@@ -26,6 +30,10 @@ export class DashboardPage implements OnInit, OnDestroy {
   stats: any = {};
   currentLocation: VehicleLocation | null = null;
   isTracking = false;
+todayDistance: string = '12 km';
+todaySpeed: string = '45 km/h';
+todayStops: number = 3;
+
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -93,4 +101,6 @@ export class DashboardPage implements OnInit, OnDestroy {
   formatTime(timestamp: Date): string {
     return new Date(timestamp).toLocaleTimeString();
   }
+
+   
 }

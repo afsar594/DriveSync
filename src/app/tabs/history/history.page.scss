@@ -1,0 +1,162 @@
+/* Background */
+.history-bg {
+  --background: #0b1220;
+  color: #e5e7eb;
+  padding: 14px;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+
+  button {
+    flex: 1;
+    background: #111827;
+    color: #9ca3af;
+    border: 1px solid #1f2937;
+    padding: 8px 0;
+    border-radius: 10px;
+    font-size: 13px;
+    transition: 0.2s;
+  }
+
+  .active {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+  }
+}
+
+/* Trip Card */
+.trip-card {
+  background: #111827;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid #1f2937;
+}
+
+/* TOP */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.route {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.route ion-icon {
+  color: #60a5fa;
+  font-size: 16px;
+}
+
+.top h3 {
+  font-size: 14px;
+  margin: 0;
+  color: #f9fafb;
+}
+
+.date {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* TIME ROW */
+.time-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.time-row ion-icon {
+  font-size: 16px;
+  color: #9ca3af;
+}
+
+/* DETAILS */
+.details {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.details span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+.details ion-icon {
+  font-size: 16px;
+  color: #60a5fa;
+}
+
+/* BUTTON */
+.map-btn {
+  width: 100%;
+  background: #2563eb;
+  border: none;
+  padding: 9px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  margin-top: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* 🔹 SUMMARY */
+.summary {
+  display: flex;
+  justify-content: space-between;
+  background: #111827;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #1f2937;
+  text-align: center;
+}
+
+.summary div h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #60a5fa;
+}
+
+.summary div span {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* 🔹 EXTRA INFO */
+.extra {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.extra span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+.extra ion-icon {
+  color: #f59e0b;
+}

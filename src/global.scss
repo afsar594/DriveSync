@@ -35,3 +35,58 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+ion-menu {
+  --width: 280px;
+}
+
+/* MENU ITEMS CLEAN STYLE */
+ion-item {
+  --background: transparent;
+  --color: inherit;
+
+  margin: 6px 10px;
+  border-radius: 12px;
+
+  --padding-start: 12px;
+  --inner-padding-end: 10px;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  transition: 0.25s ease;
+}
+
+/* 👇 ICON SIZE SMALL (MAIN FIX) */
+ion-item ion-icon {
+  font-size: 18px;   /* smaller icon */
+  margin-right: 10px;
+  transition: 0.25s ease;
+}
+
+/* 👇 HOVER EFFECT (MODERN LOOK) */
+ion-item:hover {
+  --background: rgba(255, 255, 255, 0.06);
+  transform: translateX(5px);
+  color: blue;
+}
+
+/* ICON HOVER EFFECT */
+ion-item:hover ion-icon {
+  transform: scale(1.1);
+  color: blue;
+}
+
+/* ACTIVE ITEM (SUBTLE STYLING) */
+ion-item.activated {
+  --background: rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+  color: blue;
+}
+
+/* REMOVE DEFAULT LINES */
+ion-item::part(native) {
+  border: none;
+}
+

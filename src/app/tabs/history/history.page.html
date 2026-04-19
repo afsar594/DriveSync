@@ -1,22 +1,101 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+
+    <!-- 🔙 Back Button -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard" text="" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+
+
     <ion-title>History</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">History</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="history-bg">
 
-  <ion-list>
-    <ion-item *ngFor="let trip of trips">
-      <ion-label>
-        <h2>{{ trip.destination }}</h2>
-        <p>Date: {{ trip.date }} | Status: {{ trip.status }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <!-- 🔹 Filter Buttons -->
+  <div class="filters">
+    <button 
+      *ngFor="let f of ['Today','Yesterday','7 Days']"
+      [class.active]="selectedFilter === f"
+      (click)="changeFilter(f)">
+      {{ f }}
+    </button>
+  </div>
+
+  <!-- 🔹 Summary -->
+  <div class="summary">
+    <div>
+      <h4>{{ totalTrips }}</h4>
+      <span>Trips</span>
+    </div>
+    <div>
+      <h4>{{ totalDistance }}</h4>
+      <span>Distance</span>
+    </div>
+    <div>
+      <h4>{{ totalTime }}</h4>
+      <span>Time</span>
+    </div>
+  </div>
+
+  <!-- 🔹 Trip Cards -->
+  <div class="trip-card" *ngFor="let trip of trips">
+
+    <!-- TOP -->
+    <div class="top">
+      <div class="route">
+        <ion-icon name="location-outline"></ion-icon>
+        <h3>{{ trip.start }} ➝ {{ trip.end }}</h3>
+      </div>
+
+      <span class="date">{{ trip.date }}</span>
+    </div>
+
+    <!-- TIME -->
+    <div class="time-row">
+      <ion-icon name="time-outline"></ion-icon>
+      <span>{{ trip.time }}</span>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="details">
+      <span>
+        <ion-icon name="car-outline"></ion-icon>
+        {{ trip.distance }}
+      </span>
+
+      <span>
+        <ion-icon name="timer-outline"></ion-icon>
+        {{ trip.duration }}
+      </span>
+    </div>
+
+    <!-- 🔥 NEW: SPEED + STOPS -->
+    <div class="extra">
+      <span>
+        <ion-icon name="speedometer-outline"></ion-icon>
+        {{ trip.speed }}
+      </span>
+
+      <span>
+        <ion-icon name="pause-circle-outline"></ion-icon>
+        {{ trip.stops }} stops
+      </span>
+    </div>
+
+    <!-- BUTTON -->
+    <button class="map-btn" (click)="viewMap(trip)">
+      <ion-icon name="map-outline"></ion-icon>
+      View on Map
+    </button>
+
+  </div>
+
+  <!-- EMPTY -->
+  <div *ngIf="trips.length === 0" class="empty">
+    No History Found
+  </div>
+
 </ion-content>

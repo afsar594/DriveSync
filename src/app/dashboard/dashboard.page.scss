@@ -4,6 +4,104 @@
   margin: 0 auto;
 }
 
+
+
+// ion-header {
+//   --background: #1f2937; /* dark clean color */
+//   box-shadow: none;
+// }
+
+/* toolbar height increase */
+ion-toolbar {
+  --min-height: 70px;   
+  --background: #1f2937;
+  --color: #fff;
+  padding: 10px 8px;
+}
+
+/* 🔥 STATUS CARD */
+.status-card {
+  background: #111827;
+  border-radius: 16px;
+  border: 1px solid #1f2937;
+  margin-bottom: 16px;
+}
+
+.status-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-top h2 {
+  margin: 0;
+  font-size: 16px;
+  color: #f9fafb;
+}
+
+.status-top ion-icon {
+  font-size: 26px;
+  color: #60a5fa;
+}
+
+.status {
+  font-size: 12px;
+  color: #22c55e;
+}
+
+/* INFO */
+.status-info {
+  margin-top: 10px;
+}
+
+.status-info p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 4px 0;
+}
+
+/* 🔥 TODAY STATS */
+.today-stats {
+  display: flex;
+  justify-content: space-between;
+  background: #111827;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.today-stats h4 {
+  margin: 0;
+  color: #60a5fa;
+}
+
+.today-stats span {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* remove scroll effect completely */
+// ion-header.header-collapse-condense {
+//   position: relative;
+// }
+
+/* title styling */
+ion-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* icons better spacing */
+ion-icon {
+  font-size: 32px;
+  // color: white;
+}
+
 .welcome-section {
   text-align: center;
   margin-bottom: 24px;

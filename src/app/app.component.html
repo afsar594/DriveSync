@@ -1,3 +1,61 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+
+<ion-menu contentId="main-content" #mainMenu>
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+        <!-- CLOSE BUTTON -->
+      <ion-buttons slot="end">
+        <ion-button (click)="closeMenu()" >
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+   <ion-content>
+  <ion-list>
+
+    <ion-item routerLink="/tabs/dashboard">
+      <ion-icon slot="start" name="grid-outline"></ion-icon>
+      <ion-label>Dashboard</ion-label>
+    </ion-item>
+
+    <ion-item routerLink="/tabs/my-vehicle">
+      <ion-icon slot="start" name="car-outline"></ion-icon>
+      <ion-label>My Vehicle</ion-label>
+    </ion-item>
+
+    <ion-item routerLink="/tabs/history">
+      <ion-icon slot="start" name="time-outline"></ion-icon>
+      <ion-label>History</ion-label>
+    </ion-item>
+
+    <ion-item routerLink="/tabs/alerts">
+      <ion-icon slot="start" name="notifications-outline"></ion-icon>
+      <ion-label>Alert</ion-label>
+    </ion-item>
+
+    <ion-item routerLink="/tabs/report">
+      <ion-icon slot="start" name="document-text-outline"></ion-icon>
+      <ion-label>Report</ion-label>
+    </ion-item>
+
+    <ion-item routerLink="/tabs/settings">
+      <ion-icon slot="start" name="settings-outline"></ion-icon>
+      <ion-label>Setting</ion-label>
+    </ion-item>
+
+    <ion-item (click)="goToProfile()">
+  <ion-icon slot="start" name="person-outline"></ion-icon>
+  <ion-label>My Profile</ion-label>
+</ion-item>
+
+  </ion-list>
+</ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
 </ion-app>

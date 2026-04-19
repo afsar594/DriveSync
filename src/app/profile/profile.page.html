@@ -1,0 +1,109 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>My Profile</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="profile-bg">
+
+  <!-- 🔹 PROFILE HEADER -->
+  <div class="profile-header">
+
+    <img src="assets/avatar.png" />
+
+    <h2>{{ user.name }}</h2>
+    <p>{{ user.email }}</p>
+
+    <ion-button size="small" fill="outline">
+      Edit Profile
+    </ion-button>
+
+  </div>
+
+  <!-- 🔹 PERSONAL INFO -->
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Personal Info</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-item>
+        <ion-label>Name</ion-label>
+        <p>{{ user.name }}</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Phone</ion-label>
+        <p>{{ user.phone }}</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Address</ion-label>
+        <p>{{ user.address }}</p>
+      </ion-item>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 🔹 SETTINGS -->
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Settings</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-item>
+        <ion-label>Notifications</ion-label>
+        <ion-toggle [(ngModel)]="settings.notifications"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Dark Mode</ion-label>
+        <ion-toggle [(ngModel)]="settings.darkMode"></ion-toggle>
+      </ion-item>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 🔹 VEHICLE STATS -->
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Vehicle Stats</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="stats">
+
+      <div>
+        <h3>{{ stats.totalVehicles }}</h3>
+        <span>Vehicles</span>
+      </div>
+
+      <div>
+        <h3>{{ stats.totalTrips }}</h3>
+        <span>Trips</span>
+      </div>
+
+      <div>
+        <h3>{{ stats.activeVehicles }}</h3>
+        <span>Active</span>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 🔴 LOGOUT -->
+  <div class="logout">
+    <ion-button expand="block" color="danger" (click)="logout()">
+      Logout
+    </ion-button>
+  </div>
+
+</ion-content>

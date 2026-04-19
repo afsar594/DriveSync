@@ -1,3 +1,18 @@
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+
+    <!-- 🔙 Back Button -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard" text="" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+
+
+    <ion-title>Live Tracking</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" class="tracking-content">
 
   <div #mapContainer id="map" class="full-screen-map"></div>
@@ -5,37 +20,55 @@
 
   <div class="control-panel">
     <div class="button-bar">
-      <ion-button
-        *ngIf="!isTracking && !isLoading"
-        (click)="startTracking()"
-        color="success"
-        size="small">
-        ▶️ Real-Time
-      </ion-button>
-      <ion-button
-        *ngIf="!isTracking && !isLoading"
-        (click)="startSimulatedTracking()"
-        color="warning"
-        size="small">
-        🎬 Simulate
-      </ion-button>
-      <ion-button
-        *ngIf="isTracking"
-        (click)="stopTracking()"
-        color="danger"
-        size="small">
-        ⏹️ Stop
-      </ion-button>
-      <ion-button
-        *ngIf="isLoading"
-        disabled="true"
-        color="primary"
-        size="small">
-        ⏳ Loading
-      </ion-button>
-    </div>
+  <ion-button
+    *ngIf="!isTracking && !isLoading"
+    (click)="startTracking()"
+    color="success"
+    size="small">
+    <ion-icon name="play-outline" slot="start"></ion-icon>
+    Real-Time
+  </ion-button>
+
+  <ion-button
+    *ngIf="!isTracking && !isLoading"
+    (click)="startSimulatedTracking()"
+    color="warning"
+    size="small">
+    <ion-icon name="film-outline" slot="start"></ion-icon>
+    Simulate
+  </ion-button>
+
+  <ion-button
+    *ngIf="isTracking"
+    (click)="stopTracking()"
+    color="danger"
+    size="small">
+    <ion-icon name="stop-outline" slot="start"></ion-icon>
+    Stop
+  </ion-button>
+
+  <ion-button
+    *ngIf="isLoading"
+    disabled="true"
+    color="primary"
+    size="small">
+    <ion-icon name="hourglass-outline" slot="start"></ion-icon>
+    Loading
+  </ion-button>
+</div>
 
   
+<div class="connection-status">
+  <span class="dot" [class.online]="isOnline"></span>
+
+  <div class="status-text">
+    <b>{{ isOnline ? '🟢 Online' : '🔴 Offline' }}</b>
+    <small *ngIf="lastSeen">
+      Last update: {{ lastSeen }}
+    </small>
+  </div>
+</div>
+
     <div class="status-badge">
       <span *ngIf="!isTracking && !isLoading" class="status-dot stopped"></span>
       <span *ngIf="isTracking" class="status-dot active"></span>
@@ -49,9 +82,69 @@
 
   
     <div class="live-info" *ngIf="currentLocation">
-      📍 {{ currentLocation.latitude.toFixed(4) }}, {{ currentLocation.longitude.toFixed(4) }} | 
-      🚗 {{ currentLocation.speed.toFixed(1) }} mph | 
-      🧭 {{ currentLocation.heading.toFixed(0) }}°
-    </div>
+  <span>
+    <ion-icon name="location-outline"></ion-icon>
+    {{ currentLocation.latitude.toFixed(4) }}, {{ currentLocation.longitude.toFixed(4) }}
+  </span>
+
+  <span [ngClass]="getSpeedClass(currentLocation.speed)">
+  <ion-icon name="car-outline"></ion-icon>
+  {{ currentLocation.speed.toFixed(1) }} km/h
+</span>
+
+  <span>
+    <ion-icon name="compass-outline"></ion-icon>
+    {{ currentLocation.heading.toFixed(0) }}°
+  </span>
+
+  <span>
+  <ion-icon name="map-outline"></ion-icon>
+  {{ totalDistance || 0 }} km
+</span>
+</div>
   </div>
+
+ <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="recenterMap()">
+    <ion-icon name="locate"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<div class="bottom-sheet">
+
+  <div class="drag-handle"></div>
+
+  <div class="sheet-header">
+    <h3>Live Vehicle Status</h3>
+    <span [class]="isTracking ? 'live' : 'offline'">
+      {{ isTracking ? 'LIVE' : 'OFFLINE' }}
+    </span>
+  </div>
+
+  <div class="sheet-grid" *ngIf="currentLocation">
+
+    <div class="card">
+      <ion-icon name="speedometer-outline"></ion-icon>
+      <p>{{ currentLocation.speed.toFixed(1) }} km/h</p>
+    </div>
+
+    <div class="card">
+      <ion-icon name="navigate-outline"></ion-icon>
+      <p>{{ currentLocation.heading.toFixed(0) }}°</p>
+    </div>
+
+    <div class="card">
+      <ion-icon name="location-outline"></ion-icon>
+      <p>{{ currentLocation.latitude.toFixed(3) }}</p>
+    </div>
+
+    <div class="card">
+      <ion-icon name="map-outline"></ion-icon>
+      <p>{{ totalDistance || 0 }} km</p>
+    </div>
+
+  </div>
+
+</div>
+
 </ion-content>
