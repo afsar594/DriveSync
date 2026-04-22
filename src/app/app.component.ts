@@ -49,19 +49,44 @@ export class AppComponent {
 //   });
 // }
 
-constructor(private router: Router) {}
+constructor(
+  private router: Router,
+  public menuCtrl: MenuController
+) {}
 
-closeMenu() {
-this.menu.close(); 
+async closeMenu() {
+  await this.menuCtrl.close();
 }
-
-goToProfile() {
+async goToProfile() {
   const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+  await this.menuCtrl.close(); // 🔥 pehle menu close hoga
 
   if (isLoggedIn === 'true') {
     this.router.navigateByUrl('/tabs/profile');
   } else {
     this.router.navigateByUrl('/login');
   }
+}
+
+goToReport() {
+  this.menuCtrl.close();
+
+  setTimeout(() => {
+    this.router.navigateByUrl('/tabs/report');
+  }, 200);
+}
+
+async goToAlerts() {
+  await this.menuCtrl.close(); // pehle menu close hoga
+  this.router.navigateByUrl('/tabs/alerts');
+}
+
+goToSettings() {
+  this.menuCtrl.close(); // pehle menu band
+
+  setTimeout(() => {
+    this.router.navigateByUrl('/tabs/settings');
+  }, 200); // thoda delay important hai
 }
 }

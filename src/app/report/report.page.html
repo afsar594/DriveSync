@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Report</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- FILTER -->
+  <ion-segment value="today" (ionChange)="changeFilter($event)">
+    <ion-segment-button value="today">Today</ion-segment-button>
+    <ion-segment-button value="week">Week</ion-segment-button>
+    <ion-segment-button value="month">Month</ion-segment-button>
+  </ion-segment>
+
+  <!-- SUMMARY -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Total Trips: {{ totalTrips }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-item>
+      <ion-label>Total Distance: {{ totalDistance }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Total Time: {{ totalTime }}</ion-label>
+    </ion-item>
+  </ion-card>
+
+  <!-- REPORT LIST -->
+  <ion-card *ngFor="let r of reports">
+    <ion-card-header>
+      <ion-card-title>{{ r.date }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-item>
+      <ion-label>Trips: {{ r.trips }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Distance: {{ r.distance }} km</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Time: {{ r.time }} min</ion-label>
+    </ion-item>
+  </ion-card>
+
+  <!-- EXPORT BUTTON -->
+  <ion-button expand="block" (click)="exportReport()">
+    Export Report
+  </ion-button>
+
+</ion-content>

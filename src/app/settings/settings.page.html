@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="settings-bg">
+
+  <!-- 👤 ACCOUNT -->
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Account</ion-card-title>
+    </ion-card-header>
+
+    <ion-list>
+
+      <ion-item button>
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label>Edit Profile</ion-label>
+      </ion-item>
+
+      <ion-item button>
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-label>Change Email</ion-label>
+      </ion-item>
+
+      <ion-item button>
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-label>Change Password</ion-label>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <!-- 🚗 VEHICLE -->
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Vehicle</ion-card-title>
+    </ion-card-header>
+
+    <ion-list>
+
+      <ion-item button>
+        <ion-icon name="car-outline" slot="start"></ion-icon>
+        <ion-label>My Vehicles</ion-label>
+      </ion-item>
+
+      <ion-item button>
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        <ion-label>Add Vehicle</ion-label>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <!-- 📍 TRACKING -->
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Tracking</ion-card-title>
+    </ion-card-header>
+
+    <ion-item>
+      <ion-icon name="navigate-outline" slot="start"></ion-icon>
+      <ion-label>Enable Tracking</ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="speedometer-outline" slot="start"></ion-icon>
+      <ion-label>High Accuracy</ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="time-outline" slot="start"></ion-icon>
+      <ion-label>Auto Update</ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+
+  </ion-card>
+
+  <!-- 🔔 NOTIFICATIONS -->
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Notifications</ion-card-title>
+    </ion-card-header>
+
+    <ion-item>
+      <ion-icon name="notifications-outline" slot="start"></ion-icon>
+      <ion-label>Speed Alert</ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="location-outline" slot="start"></ion-icon>
+      <ion-label>Geo Fence Alert</ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+
+  </ion-card>
+
+  <!-- 🌙 APP -->
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>App Settings</ion-card-title>
+    </ion-card-header>
+
+    <ion-item>
+      <ion-icon name="moon-outline" slot="start"></ion-icon>
+      <ion-label>Dark Mode</ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="language-outline" slot="start"></ion-icon>
+      <ion-label>Language</ion-label>
+    </ion-item>
+
+  </ion-card>
+
+  <!-- 🔒 SECURITY -->
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Security</ion-card-title>
+    </ion-card-header>
+
+    <ion-item button>
+      <ion-icon name="finger-print-outline" slot="start"></ion-icon>
+      <ion-label>App Lock</ion-label>
+    </ion-item>
+
+    <ion-item button>
+      <ion-icon name="trash-outline" slot="start"></ion-icon>
+      <ion-label>Clear Data</ion-label>
+    </ion-item>
+
+  </ion-card>
+
+  <!-- 🔴 LOGOUT -->
+  <div class="logout">
+    <ion-button expand="block" color="danger">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Logout
+    </ion-button>
+  </div>
+
+</ion-content>

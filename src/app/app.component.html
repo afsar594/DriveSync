@@ -7,8 +7,8 @@
         <ion-title>Menu</ion-title>
         <!-- CLOSE BUTTON -->
       <ion-buttons slot="end">
-        <ion-button (click)="closeMenu()" >
-          <ion-icon name="close-outline"></ion-icon>
+<ion-button (click)="menuCtrl.close()">
+              <ion-icon name="close-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
       </ion-toolbar>
@@ -32,23 +32,23 @@
       <ion-label>History</ion-label>
     </ion-item>
 
-    <ion-item routerLink="/tabs/alerts">
-      <ion-icon slot="start" name="notifications-outline"></ion-icon>
-      <ion-label>Alert</ion-label>
-    </ion-item>
+    <ion-item button (click)="goToAlerts()">
+  <ion-icon slot="start" name="notifications-outline"></ion-icon>
+  <ion-label>Alerts</ion-label>
+</ion-item>
 
-    <ion-item routerLink="/tabs/report">
-      <ion-icon slot="start" name="document-text-outline"></ion-icon>
-      <ion-label>Report</ion-label>
-    </ion-item>
+    <ion-item button (click)="goToReport()">
+  <ion-icon slot="start" name="document-text-outline"></ion-icon>
+  <ion-label>Report</ion-label>
+</ion-item>
 
-    <ion-item routerLink="/tabs/settings">
-      <ion-icon slot="start" name="settings-outline"></ion-icon>
-      <ion-label>Setting</ion-label>
-    </ion-item>
-
-    <ion-item (click)="goToProfile()">
-  <ion-icon slot="start" name="person-outline"></ion-icon>
+<ion-item button (click)="goToSettings()">
+  <ion-icon name="settings-outline" slot="start"></ion-icon>
+  <ion-label>Settings</ion-label>
+</ion-item>
+ 
+<ion-item button (click)="goToProfile()">
+    <ion-icon slot="start" name="person-outline"></ion-icon>
   <ion-label>My Profile</ion-label>
 </ion-item>
 

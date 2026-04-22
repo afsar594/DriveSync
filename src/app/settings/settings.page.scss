@@ -1,0 +1,30 @@
+.settings-bg {
+  --background: #0b1220;
+  color: #e5e7eb;
+  padding: 12px;
+}
+
+.card {
+  background: #111827;
+  border: 1px solid #2d3748;
+  border-radius: 14px;
+  margin-bottom: 14px;
+}
+
+ion-card-title {
+  color: #f9fafb;
+}
+
+ion-item {
+  --background: transparent;
+  --color: #e5e7eb;
+  --border-color: #2d3748;
+}
+
+ion-icon {
+  color: #60a5fa;
+}
+
+.logout {
+  margin-top: 20px;
+}

@@ -1,0 +1,35 @@
+ion-content {
+  --background: #0f172a;
+  color: #ffffff;
+}
+
+/* FORCE ALL TEXT WHITE */
+ion-card,
+ion-card-title,
+ion-card-content,
+p,
+h1, h2, h3, h4, h5, h6,
+span,
+div,
+ion-label {
+  color: #ffffff !important;
+}
+
+/* CARD STYLE */
+ion-card {
+  background: #1e293b;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+
+/* BUTTON */
+ion-button {
+  margin-top: 15px;
+  --background: #3b82f6;
+  --color: #ffffff;
+  --border-radius: 10px;
+}
+ion-item {
+  --color: #ffffff;
+}

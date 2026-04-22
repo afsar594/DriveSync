@@ -2,47 +2,66 @@ import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
 export const routes: Routes = [
-  {
-    path: 'tabs',
-    component: TabsPage,
-    children: [
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('../dashboard/dashboard.page').then((m) => m.DashboardPage),
-      },
-      {
-        path: 'my-vehicle',
-        loadComponent: () =>
-          import('../my-vehicle/my-vehicle.page').then((m) => m.MyVehiclePage),
-      },
-      {
-        path: 'tracking',
-        loadComponent: () =>
-          import('../tracking/tracking.page').then((m) => m.TrackingPage),
-      },
-      {
-        path: 'history',
-        loadComponent: () =>
-          import('./history/history.page').then((m) => m.HistoryPage),
-      },
-      {
-        path: '',
-        redirectTo: '/tabs/dashboard',
-        pathMatch: 'full',
-      },
-    ],
-  },
+ {
+  path: 'tabs',
+  component: TabsPage,
+  children: [
+
+    {
+      path: 'dashboard',
+      loadComponent: () =>
+        import('../dashboard/dashboard.page').then((m) => m.DashboardPage),
+    },
+
+    {
+      path: 'my-vehicle',
+      loadComponent: () =>
+        import('../my-vehicle/my-vehicle.page').then((m) => m.MyVehiclePage),
+    },
+
+    {
+      path: 'tracking',
+      loadComponent: () =>
+        import('../tracking/tracking.page').then((m) => m.TrackingPage),
+    },
+
+    // ✅ tabs.routes.ts
 {
-  path: 'profile',
+  path: 'history',
   loadComponent: () =>
-    import('../profile/profile.page').then((m) => m.ProfilePage),
+    import('./history/history.page').then(m => m.HistoryPage),
 },
 
-  {
-    path: '',
-    redirectTo: '/tabs/dashboard',
-    pathMatch: 'full',
-  },
-  
+    {
+      path: 'profile',
+      loadComponent: () =>
+        import('../profile/profile.page').then((m) => m.ProfilePage),
+    },
+
+    // ✅ SETTINGS (correct place)
+    {
+      path: 'settings',
+      loadComponent: () =>
+        import('../settings/settings.page').then(m => m.SettingsPage),
+    },
+
+    {
+      path: '',
+      redirectTo: '/tabs/dashboard',
+      pathMatch: 'full',
+    },
+    {
+  path: 'report',
+  loadComponent: () =>
+    import('../report/report.page').then(m => m.ReportPage),
+},
+{
+  path: 'alerts',
+  loadComponent: () =>
+    import('../alerts/alerts.page').then(m => m.AlertsPage),
+}
+
+  ],
+},
 ];
+  

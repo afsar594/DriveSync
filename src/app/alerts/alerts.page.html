@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Alerts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="dark-bg">
+
+  <ion-button expand="block" color="danger" (click)="clearAlerts()">
+    Clear All Alerts
+  </ion-button>
+
+  <ion-card *ngFor="let a of alerts" class="alert-card">
+
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="notifications-outline"></ion-icon>
+        {{ a.title }}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>{{ a.message }}</p>
+      <small>{{ a.time }}</small>
+
+      <div class="badge">{{ a.type }}</div>
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
