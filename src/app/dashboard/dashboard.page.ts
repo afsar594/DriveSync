@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { IonMenuButton, IonIcon } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { NavController } from '@ionic/angular';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader,
   IonCardTitle, IonCardContent, IonButton, IonGrid, IonRow,
@@ -39,7 +40,8 @@ todayStops: number = 3;
   constructor(
     private vehicleService: VehicleService,
     private trackingService: TrackingService,
-    private router: Router
+    private router: Router,
+    private navCtrl: NavController 
   ) {}
 
   ngOnInit() {
@@ -101,6 +103,13 @@ todayStops: number = 3;
   formatTime(timestamp: Date): string {
     return new Date(timestamp).toLocaleTimeString();
   }
+goToProfile() {
+  this.navCtrl.navigateForward('/profile');
+}
 
+logout() {
+  localStorage.removeItem('isLoggedIn');
+  this.navCtrl.navigateRoot('/login');
+}
    
 }

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonCard, IonCardHeader, IonCardTitle,
-  IonCardContent, IonIcon, IonButton
+  IonCardContent, IonIcon, IonButton,  IonButtons,
+  IonBackButton
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -15,7 +16,8 @@ import {
     CommonModule,
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonCard, IonCardHeader, IonCardTitle,
-    IonCardContent, IonIcon, IonButton
+    IonCardContent, IonIcon, IonButton, IonButtons,
+  IonBackButton
   ]
 })
 export class AlertsPage {

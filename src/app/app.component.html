@@ -7,30 +7,33 @@
         <ion-title>Menu</ion-title>
         <!-- CLOSE BUTTON -->
       <ion-buttons slot="end">
-<ion-button (click)="menuCtrl.close()">
-              <ion-icon name="close-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+  <ion-button (click)="closeMenu()">
+  <ion-icon name="close-outline"></ion-icon>
+</ion-button>
+
+</ion-buttons>
       </ion-toolbar>
     </ion-header>
 
    <ion-content>
   <ion-list>
 
-    <ion-item routerLink="/tabs/dashboard">
-      <ion-icon slot="start" name="grid-outline"></ion-icon>
-      <ion-label>Dashboard</ion-label>
-    </ion-item>
+    <!-- Dashboard -->
+  <ion-item button (click)="goToDashboard()">
+    <ion-icon slot="start" name="grid-outline"></ion-icon>
+    <ion-label>Dashboard</ion-label>
+  </ion-item>
 
-    <ion-item routerLink="/tabs/my-vehicle">
-      <ion-icon slot="start" name="car-outline"></ion-icon>
-      <ion-label>My Vehicle</ion-label>
-    </ion-item>
+  <!-- My Vehicle -->
+  <ion-item button (click)="goToVehicle()">
+    <ion-icon slot="start" name="car-outline"></ion-icon>
+    <ion-label>My Vehicle</ion-label>
+  </ion-item>
 
-    <ion-item routerLink="/tabs/history">
-      <ion-icon slot="start" name="time-outline"></ion-icon>
-      <ion-label>History</ion-label>
-    </ion-item>
+<ion-item button (click)="goToHistory()">
+  <ion-icon slot="start" name="time-outline"></ion-icon>
+  <ion-label>History</ion-label>
+</ion-item>
 
     <ion-item button (click)="goToAlerts()">
   <ion-icon slot="start" name="notifications-outline"></ion-icon>

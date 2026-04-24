@@ -41,7 +41,6 @@ import {
   ]
 })
 export class AppComponent {
-  @ViewChild('mainMenu') menu!: IonMenu;
 
 // constructor() {
 //   addIcons({
@@ -53,10 +52,13 @@ constructor(
   private router: Router,
   public menuCtrl: MenuController
 ) {}
+@ViewChild('mainMenu', { static: false }) menu!: IonMenu;
 
-async closeMenu() {
-  await this.menuCtrl.close();
+closeMenu() {
+  this.menu.close();
 }
+
+
 async goToProfile() {
   const isLoggedIn = localStorage.getItem('isLoggedIn');
 
@@ -89,4 +91,29 @@ goToSettings() {
     this.router.navigateByUrl('/tabs/settings');
   }, 200); // thoda delay important hai
 }
+
+goToHistory() {
+  this.menuCtrl.close();
+
+  setTimeout(() => {
+    this.router.navigateByUrl('/tabs/history');
+  }, 200);
+}
+
+goToDashboard() {
+  this.menuCtrl.close();
+
+  setTimeout(() => {
+    this.router.navigateByUrl('/tabs/dashboard');
+  }, 200);
+}
+
+goToVehicle() {
+  this.menuCtrl.close();
+
+  setTimeout(() => {
+    this.router.navigateByUrl('/tabs/my-vehicle');
+  }, 200);
+}
+
 }

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent,
   IonCard, IonCardHeader, IonCardTitle,
-  IonItem, IonLabel, IonButton, IonSegment, IonSegmentButton
+  IonItem, IonLabel, IonButton, IonSegment, IonSegmentButton,IonButtons,
+  IonBackButton
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -16,7 +17,8 @@ import {
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonCard, IonCardHeader, IonCardTitle,
     IonItem, IonLabel, IonButton,
-    IonSegment, IonSegmentButton
+    IonSegment, IonSegmentButton, IonButtons,
+  IonBackButton
   ]
 })
 export class ReportPage {

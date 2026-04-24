@@ -85,6 +85,77 @@ ion-toolbar {
   color: #9ca3af;
 }
 
+/* container alignment */
+.header-icons {
+  display: flex;
+  align-items: center;
+}
+
+/* profile icon (thoda bada) */
+.profile-btn ion-icon {
+  font-size: 26px;
+}
+
+/* logout icon (chhota + neat) */
+.logout-btn ion-icon {
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+/* spacing between icons */
+.logout-btn {
+  margin-left: 6px;
+}
+
+/* buttons ka extra padding remove */
+.header-icons ion-button {
+  --padding-start: 4px;
+  --padding-end: 4px;
+}/* container alignment */
+.header-icons {
+  display: flex;
+  align-items: center;
+}
+
+/* profile icon (thoda bada) */
+.profile-btn ion-icon {
+  font-size: 28px;
+}
+
+/* logout icon (chhota + neat) */
+.logout-btn ion-icon {
+  font-size: 28px;
+  opacity: 0.8;
+  color: red;
+}
+
+.logout-btn ion-icon {
+  font-size: 26px;
+  color: white; /* red */
+}
+
+.logout-btn:hover ion-icon {
+  color: white;
+}
+/* spacing between icons */
+.logout-btn {
+  margin-left: 6px;
+}
+
+/* buttons ka extra padding remove */
+.header-icons ion-button {
+  --padding-start: 4px;
+  --padding-end: 4px;
+}
+
+.logout-btn:hover ion-icon {
+  color: #ff4d4f;
+}
+
+.profile-btn:hover ion-icon {
+  color: #4dabf7;
+}
+
 /* remove scroll effect completely */
 // ion-header.header-collapse-condense {
 //   position: relative;

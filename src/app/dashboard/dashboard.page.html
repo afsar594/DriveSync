@@ -6,28 +6,25 @@
     </ion-buttons>
 
     <ion-title>Dashboard</ion-title>
+<ion-buttons slot="end" class="header-icons">
 
-    <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="person-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+  <!-- 👤 Profile -->
+  <ion-button class="profile-btn" (click)="goToProfile()">
+    <ion-icon name="person-circle-outline"></ion-icon>
+  </ion-button>
+
+  <!-- 🔴 Logout -->
+  <ion-button class="logout-btn" (click)="logout()">
+    <!-- <ion-icon name="log-out-outline"></ion-icon> -->
+     <ion-icon name="power"></ion-icon>
+  </ion-button>
+
+</ion-buttons>
 
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="dashboard-container">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">
-        <ion-icon name="bar-chart" slot="start"></ion-icon>
-        Dashboard
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  
 
   <div class="dashboard-container">
     <!-- Welcome Section -->
@@ -245,7 +242,4 @@
       </ion-row>
     </ion-grid>
   </div>
-
-
-</div>
 </ion-content>
