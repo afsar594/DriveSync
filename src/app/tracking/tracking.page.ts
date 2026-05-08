@@ -1,31 +1,16 @@
-import { Component, ViewChild, ElementRef, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
- IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonBackButton,
-  IonButton,
-  IonIcon,
-  IonFab,
-  IonFabButton
-} from '@ionic/angular/standalone';import { TrackingService, VehicleLocation, TrackingHistoryItem } from '../services/tracking.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+  Component,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  NgZone,
+  CUSTOM_ELEMENTS_SCHEMA
+} from '@angular/core';
+
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-// Leaflet global type
-declare var L: any;
-
-@Component({
-  selector: 'app-tracking',
-  templateUrl: 'tracking.page.html',
-  styleUrls: ['tracking.page.scss'],
-imports: [
-    CommonModule,
-  FormsModule,
+import {
   IonContent,
   IonHeader,
   IonToolbar,
@@ -35,395 +20,245 @@ imports: [
   IonButton,
   IonIcon,
   IonFab,
-  IonFabButton 
-  ]})
-export class TrackingPage implements OnInit, OnDestroy {
+  IonFabButton
+} from '@ionic/angular/standalone';
+
+import * as maplibregl from 'maplibre-gl';
+
+@Component({
+  selector: 'app-tracking',
+  templateUrl: 'tracking.page.html',
+  styleUrls: ['tracking.page.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonBackButton,
+    IonButton,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class TrackingPage implements AfterViewInit {
+
   @ViewChild('mapContainer') mapContainer!: ElementRef;
 
-  map: any;
-  currentLocation: VehicleLocation | null = null;
-  vehicleMarker: any;
+  map!: maplibregl.Map;
+  marker!: maplibregl.Marker;
+
+  routeCoords: [number, number][] = [];
+
   isTracking = false;
-  isOnline: boolean = false;
-lastSeen: string = '';
-  routePolyline: any;
-  trackingPath: [number, number][] = [];
-  totalDistance = 0;
   isLoading = false;
-  private destroy$ = new Subject<void>();
+  isOnline = false;
 
-  
+  totalDistance: number = 0;
 
-  // Modern GPS Navigator Icon
-  private vehicleIcon = L.divIcon({
-    html: `<div id="vehicle-marker" style="
-      width: 48px;
-      height: 48px;
-      transform-origin: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    ">
-      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <!-- Outer glow/pulse circle -->
-        <circle cx="24" cy="24" r="20" fill="none" stroke="#0EA5E9" stroke-width="1" opacity="0.3"/>
-        <!-- GPS tracking circle (main) -->
-        <circle cx="24" cy="24" r="16" fill="#0EA5E9" stroke="#0369A1" stroke-width="1.5"/>
-        <!-- Navigation arrow pointing up -->
-        <path d="M 24 10 L 32 24 L 28 24 L 28 32 L 20 32 L 20 24 L 16 24 Z" fill="white" stroke="white" stroke-width="0.5"/>
-        <!-- Center dot -->
-        <circle cx="24" cy="24" r="3" fill="white"/>
-        <!-- Accuracy indicator circles -->
-        <circle cx="24" cy="24" r="22" fill="none" stroke="#0EA5E9" stroke-width="0.8" opacity="0.4" stroke-dasharray="2,2"/>
-      </svg>
-    </div>`,
-    iconSize: [48, 48],
-    className: 'vehicle-marker-icon'
-  });
+  currentLocation: any = null;
+  lastSeen = '';
 
-  constructor(private trackingService: TrackingService, private ngZone: NgZone) {}
+  constructor(private ngZone: NgZone) {}
 
-  ngOnInit(): void {
-    setTimeout(() => {
-      this.initLeafletMap();
-      this.loadInitialLocation();
-    }, 500);
+  // ================= INIT MAP =================
+  ngAfterViewInit() {
+    this.initMap();
   }
 
-  /**
-   * Load initial location before tracking starts
-   */
-  private loadInitialLocation(): void {
-    const initialLocation = this.trackingService.getCurrentLocation();
-    this.currentLocation = initialLocation;
-    if (this.vehicleMarker && this.map) {
-      this.vehicleMarker.setLatLng([initialLocation.latitude, initialLocation.longitude]);
-      this.map.setView([initialLocation.latitude, initialLocation.longitude], 15);
-    }
-  }
+  initMap() {
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-    this.trackingService.stopTracking();
-    if (this.map) {
-      this.map.remove();
-    }
-  }
+    const startPoint: [number, number] = [70.295, 28.420];
 
-  /**
-   * Start real-time tracking from backend API
-   */
-  startTracking(): void {
-    if (this.isTracking) return;
-
-    this.isLoading = true;
-    this.isTracking = true;
-    this.trackingPath = [];
-    this.trackingService.startRouteTracking();
-
-    // Draw initial route after loading
-    setTimeout(() => {
-      this.drawTrackingRoute();
-      this.subscribeToLocationUpdates();
-      this.isLoading = false;
-    }, 2000); // Give time for initial data load
-  }
-
-  /**
-   * Start simulated tracking with test data
-   * Moves vehicle through provided locations to demonstrate live tracking
-   */
-  async startSimulatedTracking(): Promise<void> {
-    if (this.isTracking) return;
-
-    // Test data with 10 locations
-    const testData = [
-      {
-        "id": 22,
-        "vehicleId": "V1",
-        "latitude": 30.448,
-        "longitude": 72.933,
-        "createdAt": "2026-04-12T05:09:31.5466667"
-      },
-      {
-        "id": 21,
-        "vehicleId": "V1",
-        "latitude": 30.4,
-        "longitude": 72.91,
-        "createdAt": "2026-04-12T05:09:31.5266667"
-      },
-      {
-        "id": 14,
-        "vehicleId": "V1",
-        "latitude": 30.19,
-        "longitude": 72.7,
-        "createdAt": "2026-04-12T05:09:31.5166667"
-      },
-      {
-        "id": 15,
-        "vehicleId": "V1",
-        "latitude": 30.22,
-        "longitude": 72.73,
-        "createdAt": "2026-04-12T05:09:31.5166667"
-      },
-      {
-        "id": 16,
-        "vehicleId": "V1",
-        "latitude": 30.25,
-        "longitude": 72.76,
-        "createdAt": "2026-04-12T05:09:31.5166667"
-      },
-      {
-        "id": 17,
-        "vehicleId": "V1",
-        "latitude": 30.28,
-        "longitude": 72.79,
-        "createdAt": "2026-04-12T05:09:31.5166667"
-      },
-      {
-        "id": 18,
-        "vehicleId": "V1",
-        "latitude": 30.31,
-        "longitude": 72.82,
-        "createdAt": "2026-04-12T05:09:31.5166667"
-      },
-      {
-        "id": 19,
-        "vehicleId": "V1",
-        "latitude": 30.34,
-        "longitude": 72.85,
-        "createdAt": "2026-04-12T05:09:31.5166667"
-      },
-      {
-        "id": 20,
-        "vehicleId": "V1",
-        "latitude": 30.37,
-        "longitude": 72.88,
-        "createdAt": "2026-04-12T05:09:31.5166667"
-      },
-      {
-        "id": 13,
-        "vehicleId": "V1",
-        "latitude": 30.159,
-        "longitude": 72.675,
-        "createdAt": "2026-04-12T05:09:31.5133333"
-      }
-    ];
-
-    this.isLoading = true;
-    this.isTracking = true;
-    this.trackingPath = [];
-
-    try {
-      console.log('🎬 Starting simulated tracking...');
-      
-      // Await the service's route building process
-      await this.trackingService.startSimulatedTracking(testData);
-      
-      console.log('✅ Routes built, drawing initial route...');
-      
-      // Now draw initial route and subscribe to updates
-      this.drawTrackingRoute();
-      this.subscribeToLocationUpdates();
-      this.isLoading = false;
-      
-      console.log('✅ Simulated tracking started successfully');
-    } catch (error) {
-      console.error('❌ Error starting simulated tracking:', error);
-      this.isLoading = false;
-      this.isTracking = false;
-    }
-  }
-
-  recenterMap() {
-  if (this.currentLocation) {
-    this.map.setView(
-      [this.currentLocation.latitude, this.currentLocation.longitude],
-      16
-    );
-  }
-}
-
-getSpeedClass(speed: number) {
-  if (speed < 40) return 'slow';
-  if (speed < 80) return 'normal';
-  return 'fast';
-}
-
-  /**
-   * Stop tracking
-   */
-  stopTracking(): void {
-    this.isTracking = false;
-    this.trackingService.stopTracking();
-  }
-
-  /**
-   * Initialize Leaflet map with OpenStreetMap
-   */
-  private initLeafletMap(): void {
-    if (!this.mapContainer) return;
-
-    this.ngZone.runOutsideAngular(() => {
-      const startLocation = this.trackingService.getCurrentLocation();
-
-      this.map = L.map(this.mapContainer.nativeElement).setView(
-        [startLocation.latitude, startLocation.longitude],
-        15
-      );
-
-      // Add CartoDB Voyager tiles (professional, free, no API key needed)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastered/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '© CartoDB, © OpenStreetMap contributors',
-        subdomains: 'abcd',
-        maxZoom: 20
-      }).addTo(this.map);
-
-      // Initialize vehicle marker
-      this.vehicleMarker = L.marker(
-        [startLocation.latitude, startLocation.longitude],
-        { icon: this.vehicleIcon }
-      ).addTo(this.map);
+    this.map = new maplibregl.Map({
+      container: this.mapContainer.nativeElement,
+      style: `https://api.mapbox.com/styles/v1/mapbox/navigation-night-v1?access_token=YOUR_TOKEN`,
+      center: startPoint,
+      zoom: 14
     });
-  }
 
-  /**
-   * Draw the complete route polyline on the map
-   */
-  private drawTrackingRoute(): void {
-    if (!this.map) return;
+    this.map.on('load', () => {
 
-    const route = this.trackingService.getTrackingHistory();
-    const routeCoordinates = route.map(loc => [loc.latitude, loc.longitude] as [number, number]);
+      this.marker = new maplibregl.Marker({
+        color: '#ff0000',
+        rotationAlignment: 'map'
+      })
+        .setLngLat(startPoint)
+        .addTo(this.map);
 
-    // Remove old polyline if exists
-    if (this.routePolyline) {
-      this.map.removeLayer(this.routePolyline);
-    }
-
-    // Create new polyline
-    this.ngZone.runOutsideAngular(() => {
-      this.routePolyline = L.polyline(routeCoordinates, {
-        color: '#0099ff',
-        weight: 3,
-        opacity: 0.7,
-        lineCap: 'round',
-        lineJoin: 'round'
-      }).addTo(this.map);
-
-      // Fit map to route bounds
-      const bounds = this.routePolyline.getBounds();
-      this.map.fitBounds(bounds, { padding: [50, 50] });
-    });
-  }
-
-  /**
-   * Subscribe to location updates and continuously update route with smooth slow animation
-   */
-  private subscribeToLocationUpdates(): void {
-    let lastLocation: VehicleLocation | null = null;
-    let activeAnimation: any = null;
-
-    this.trackingService.vehicleLocation$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((location: VehicleLocation) => {
-
-         this.isOnline = true;
-  this.lastSeen = new Date().toLocaleTimeString();
-
-        this.ngZone.runOutsideAngular(() => {
-          this.currentLocation = location;
-
-          if (this.vehicleMarker && this.map) {
-            // Clear any active animation
-            if (activeAnimation) {
-              clearInterval(activeAnimation);
-            }
-
-            // Move along road route
-            if (lastLocation) {
-              // Fetch route and animate along it
-              this.trackingService.fetchRoute(lastLocation.latitude, lastLocation.longitude, location.latitude, location.longitude).then(routePoints => {
-                if (routePoints.length > 1) {
-                  // Animate through route points along the road
-                  let routeIndex = 0;
-                  const totalSteps = routePoints.length;
-                  const duration = 1000; // 1 second for faster animation
-                  const stepDuration = Math.max(duration / totalSteps, 50);
-
-                  activeAnimation = setInterval(() => {
-                    if (routeIndex < routePoints.length) {
-                      const [lat, lng] = routePoints[routeIndex];
-                      this.vehicleMarker.setLatLng([lat, lng]);
-
-                      // Update map center only every 8th point to reduce flickering
-                      if (routeIndex % 8 === 0) {
-                        this.map.setView([lat, lng], 15, { animate: false });
-                      }
-
-                      routeIndex++;
-                    } else {
-                      // Animation complete, move to final location
-                      clearInterval(activeAnimation);
-                      activeAnimation = null;
-                      this.vehicleMarker.setLatLng([location.latitude, location.longitude]);
-                      this.map.setView([location.latitude, location.longitude], 15, { animate: false });
-                    }
-                  }, stepDuration);
-                } else {
-                  // No route found, move directly to location
-                  this.vehicleMarker.setLatLng([location.latitude, location.longitude]);
-                  this.map.setView([location.latitude, location.longitude], 15, { animate: false });
-                }
-              }).catch(() => {
-                // Fallback to direct move if route fetch fails
-                this.vehicleMarker.setLatLng([location.latitude, location.longitude]);
-                this.map.setView([location.latitude, location.longitude], 15, { animate: false });
-              });
-            } else {
-              // First location - just set it without animation
-              this.vehicleMarker.setLatLng([location.latitude, location.longitude]);
-              this.map.setView([location.latitude, location.longitude], 15, { animate: false });
-            }
-
-            // Add to tracking path and update route polyline
-            this.trackingPath.push([location.longitude, location.latitude]);
-            this.updateRoutePolyline();
-
-            lastLocation = location;
+      this.map.addSource('route', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'LineString',
+            coordinates: []
           }
-        });
+        }
+      });
+
+      this.map.addLayer({
+        id: 'route-line',
+        type: 'line',
+        source: 'route',
+        paint: {
+          'line-color': '#00e5ff',
+          'line-width': 4
+        }
+      });
+    });
+  }
+
+  // ================= START TRACKING =================
+  startTracking() {
+
+    if (this.isTracking) return;
+
+    this.isTracking = true;
+    this.isLoading = true;
+    this.totalDistance = 0;
+
+    // 🔥 TEST ROUTE (REAL ROAD)
+    const start = '70.295,28.420';
+    const end = '70.330,28.455';
+
+    const url =
+      `https://router.project-osrm.org/route/v1/driving/${start};${end}?overview=full&geometries=geojson`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+
+        this.routeCoords = data.routes[0].geometry.coordinates;
+
+        this.isLoading = false;
+
+        this.animateVehicle();
+      })
+      .catch(() => {
+        this.isLoading = false;
+        this.isTracking = false;
       });
   }
 
-  /**
-   * Update the route polyline with new locations
-   */
-  private updateRoutePolyline(): void {
-    if (!this.map) return;
+  // ================= ANIMATION =================
+  animateVehicle() {
 
-    const route = this.trackingService.getTrackingHistory();
-    if (route.length > 1) {
-      const routeCoordinates = route.map(loc => [loc.latitude, loc.longitude] as [number, number]);
+    let i = 0;
 
-      if (this.routePolyline) {
-        // Update existing polyline for better performance
-        this.ngZone.runOutsideAngular(() => {
-          this.routePolyline.setLatLngs(routeCoordinates);
-        });
-      } else {
-        // Create new polyline if it doesn't exist
-        this.ngZone.runOutsideAngular(() => {
-          this.routePolyline = L.polyline(routeCoordinates, {
-            color: '#0099ff',
-            weight: 3,
-            opacity: 0.7,
-            lineCap: 'round',
-            lineJoin: 'round'
-          }).addTo(this.map);
-        });
+    const move = () => {
+
+      if (!this.isTracking) return;
+
+      if (i >= this.routeCoords.length - 1) {
+        this.isTracking = false;
+        return;
       }
+
+      const current = this.routeCoords[i];
+      const next = this.routeCoords[i + 1];
+
+      const [lng, lat] = current;
+
+      // 🔥 ROTATION
+      const heading = this.getBearing(current, next);
+
+      this.marker.setLngLat([lng, lat]);
+      this.marker.setRotation(heading);
+
+      this.map.setCenter([lng, lat]);
+
+      // 🔥 DISTANCE
+      this.totalDistance += this.getDistance(current, next);
+
+      // 🔥 ROUTE UPDATE
+      const source = this.map.getSource('route') as maplibregl.GeoJSONSource;
+
+      source.setData({
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'LineString',
+          coordinates: this.routeCoords.slice(0, i + 1)
+        }
+      });
+
+      // 🔥 UI UPDATE
+      this.ngZone.run(() => {
+
+        this.currentLocation = {
+          latitude: lat,
+          longitude: lng,
+          speed: 30 + Math.random() * 20,
+          heading: heading
+        };
+
+        this.lastSeen = new Date().toLocaleTimeString();
+        this.isOnline = true;
+      });
+
+      i++;
+
+      setTimeout(() => requestAnimationFrame(move), 40);
+    };
+
+    move();
+  }
+
+  // ================= STOP =================
+  stopTracking() {
+    this.isTracking = false;
+  }
+
+  // ================= RECENTER =================
+  recenterMap() {
+    if (this.currentLocation) {
+      this.map.setCenter([
+        this.currentLocation.longitude,
+        this.currentLocation.latitude
+      ]);
     }
+  }
+
+  // ================= BEARING =================
+  getBearing(start: [number, number], end: [number, number]) {
+
+    const y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
+    const x =
+      Math.cos(start[1]) * Math.sin(end[1]) -
+      Math.sin(start[1]) * Math.cos(end[1]) *
+      Math.cos(end[0] - start[0]);
+
+    return (Math.atan2(y, x) * 180) / Math.PI;
+  }
+
+  // ================= DISTANCE =================
+  getDistance(a: [number, number], b: [number, number]) {
+
+    const R = 6371;
+
+    const dLat = (b[1] - a[1]) * Math.PI / 180;
+    const dLng = (b[0] - a[0]) * Math.PI / 180;
+
+    const lat1 = a[1] * Math.PI / 180;
+    const lat2 = b[1] * Math.PI / 180;
+
+    const x =
+      Math.sin(dLat / 2) ** 2 +
+      Math.sin(dLng / 2) ** 2 *
+      Math.cos(lat1) *
+      Math.cos(lat2);
+
+    return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+  }
+
+  // ================= SPEED CLASS =================
+  getSpeedClass(speed: number) {
+    if (speed < 40) return 'slow';
+    if (speed < 80) return 'normal';
+    return 'fast';
   }
 }

@@ -14,6 +14,7 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content class="settings-bg">
 
   <!-- 👤 ACCOUNT -->
@@ -24,20 +25,20 @@
 
     <ion-list>
 
-      <ion-item button>
-        <ion-icon name="person-outline" slot="start"></ion-icon>
-        <ion-label>Edit Profile</ion-label>
-      </ion-item>
+      <ion-item button (click)="openModal('profile')">
+  <ion-icon name="person-outline" slot="start"></ion-icon>
+  <ion-label>Edit Profile</ion-label>
+</ion-item>
 
-      <ion-item button>
-        <ion-icon name="mail-outline" slot="start"></ion-icon>
-        <ion-label>Change Email</ion-label>
-      </ion-item>
+<ion-item button (click)="openModal('email')">
+  <ion-icon name="mail-outline" slot="start"></ion-icon>
+  <ion-label>Change Email</ion-label>
+</ion-item>
 
-      <ion-item button>
-        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-        <ion-label>Change Password</ion-label>
-      </ion-item>
+<ion-item button (click)="openModal('password')">
+  <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+  <ion-label>Change Password</ion-label>
+</ion-item>
 
     </ion-list>
   </ion-card>
@@ -153,5 +154,113 @@
       Logout
     </ion-button>
   </div>
+
+  <!-- CUSTOM POPUP -->
+
+<div
+  class="popup-overlay"
+  *ngIf="isModalOpen"
+  [class.closing]="isClosing">
+
+  <div class="custom-popup">
+
+    <!-- HEADER -->
+
+    <div class="popup-header">
+
+      <h2>{{ modalTitle }}</h2>
+
+      <ion-icon
+        name="close-outline"
+        (click)="closeModal()">
+      </ion-icon>
+
+    </div>
+
+    <!-- EDIT PROFILE -->
+
+    <div *ngIf="modalType === 'profile'">
+
+      <div class="custom-input">
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter full name">
+      </div>
+
+      <div class="custom-input">
+        <label>Phone Number</label>
+        <input type="text" placeholder="Enter phone number">
+      </div>
+
+      <div class="custom-input">
+        <label>Username</label>
+        <input type="text" placeholder="Enter username">
+      </div>
+
+      <button
+  class="save-btn"
+  (click)="saveAction('Profile updated successfully')">
+
+  Save Changes
+
+</button>
+
+    </div>
+
+    <!-- CHANGE EMAIL -->
+
+    <div *ngIf="modalType === 'email'">
+
+      <div class="custom-input">
+        <label>Current Email</label>
+        <input type="email" placeholder="Current email">
+      </div>
+
+      <div class="custom-input">
+        <label>New Email</label>
+        <input type="email" placeholder="New email">
+      </div>
+
+      <button
+  class="save-btn"
+  (click)="saveAction('Email changed successfully')">
+
+  Update Email
+
+</button>
+
+    </div>
+
+    <!-- CHANGE PASSWORD -->
+
+    <div *ngIf="modalType === 'password'">
+
+      <div class="custom-input">
+        <label>Current Password</label>
+        <input type="password" placeholder="Current password">
+      </div>
+
+      <div class="custom-input">
+        <label>New Password</label>
+        <input type="password" placeholder="New password">
+      </div>
+
+      <div class="custom-input">
+        <label>Confirm Password</label>
+        <input type="password" placeholder="Confirm password">
+      </div>
+
+      <button
+  class="save-btn"
+  (click)="saveAction('Password changed successfully')">
+
+  Change Password
+
+</button>
+
+    </div>
+
+  </div>
+
+</div>
 
 </ion-content>

@@ -36,6 +36,7 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+@import "maplibre-gl/dist/maplibre-gl.css";
 
 ion-menu {
   --width: 280px;
@@ -90,3 +91,6 @@ ion-item::part(native) {
   border: none;
 }
 
+html, body, ion-app, ion-content {
+  height: 100%;
+}
