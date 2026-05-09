@@ -1,42 +1,58 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="login-bg">
 
-<ion-content class="login-bg" [fullscreen]="true">
+  <div class="top-design"></div>
 
-  <div class="login-container">
+  <div class="login-wrapper">
 
-    <!-- Logo -->
-    <div class="logo">
-      🚗
-      <h2>Vehicle Tracker</h2>
+    <!-- Title -->
+    <div class="title-box">
+      <h2>Welcome Back,</h2>
+      <h1>Log In!</h1>
     </div>
 
     <!-- Form -->
-    <form [formGroup]="loginForm">
+    <form [formGroup]="loginForm" class="form-box">
 
-      <ion-item lines="none">
-        <ion-input 
-          placeholder="Email" 
+      <!-- Email -->
+      <div class="input-box">
+        <ion-icon name="mail-outline"></ion-icon>
+        <ion-input
+          type="email"
+          placeholder="Enter Email Address"
           formControlName="email">
         </ion-input>
-      </ion-item>
+      </div>
+      <small class="error"
+        *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        Please enter proper Email Address
+      </small>
 
-      <ion-item lines="none">
-        <ion-input 
-          type="password" 
-          placeholder="Password" 
+      <!-- Password -->
+      <div class="input-box">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <ion-input
+          type="password"
+          placeholder="Enter Password"
           formControlName="password">
         </ion-input>
-      </ion-item>
+      </div>
+      <small class="error"
+        *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        Please enter your Password
+      </small>
 
-      <ion-button expand="block" (click)="login()">
-  Login
-</ion-button>
+      <!-- Options -->
+      <div class="options">
+        <label>
+          <input type="checkbox"> Remember me
+        </label>
+        <span>Forgot password?</span>
+      </div>
 
-      <p class="forgot">Forgot Password?</p>
+      <!-- Button -->
+      <ion-button expand="block" class="login-btn" (click)="login()">
+        Log In
+      </ion-button>
 
     </form>
 

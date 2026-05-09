@@ -1,9 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import {
-  IonContent, IonHeader, IonTitle, IonToolbar,
-  IonCard, IonCardHeader, IonCardTitle,
-  IonCardContent, IonIcon, IonButton,  IonButtons,
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonIcon,
+  IonButton,
+  IonButtons,
   IonBackButton
 } from '@ionic/angular/standalone';
 
@@ -14,10 +23,18 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    IonContent, IonHeader, IonTitle, IonToolbar,
-    IonCard, IonCardHeader, IonCardTitle,
-    IonCardContent, IonIcon, IonButton, IonButtons,
-  IonBackButton
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonIcon,
+    IonButton,
+    IonButtons,
+    IonBackButton
   ]
 })
 export class AlertsPage {
@@ -46,4 +63,5 @@ export class AlertsPage {
   clearAlerts() {
     this.alerts = [];
   }
+
 }

@@ -12,12 +12,12 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonButton,
   IonIcon,
   IonList,
   IonItem,
   IonRouterOutlet,
-  IonLabel   
+  IonLabel  ,
+  IonMenuToggle 
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -32,12 +32,12 @@ import {
     IonToolbar,
     IonTitle,
     IonButtons,
-    IonButton,
     IonIcon,
     IonList,
     IonItem,
     IonRouterOutlet,
-    IonLabel   
+    IonLabel  ,
+    IonMenuToggle 
   ]
 })
 export class AppComponent {
@@ -54,66 +54,67 @@ constructor(
 ) {}
 @ViewChild('mainMenu', { static: false }) menu!: IonMenu;
 
-closeMenu() {
-  this.menu.close();
+async closeMenu() {
+  await this.menuCtrl.close();
 }
 
 
-async goToProfile() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
+async goToDashboard() {
 
-  await this.menuCtrl.close(); // 🔥 pehle menu close hoga
+  await this.menuCtrl.close();
+
+  this.router.navigateByUrl('/tabs/dashboard');
+
+}
+
+goToVehicle() {
+  this.router.navigateByUrl('/tabs/my-vehicle');
+}
+
+async goToHistory() {
+
+  await this.menuCtrl.close();
+
+  this.router.navigateByUrl('/tabs/history');
+
+}
+
+async goToAlerts() {
+
+  await this.menuCtrl.close();
+
+  this.router.navigateByUrl('/tabs/alerts');
+
+}
+
+async goToReport() {
+
+  await this.menuCtrl.close();
+
+  this.router.navigateByUrl('/tabs/report');
+
+}
+
+async goToSettings() {
+
+  await this.menuCtrl.close();
+
+  this.router.navigateByUrl('/tabs/settings');
+
+}
+
+async goToProfile() {
+
+  await this.menuCtrl.close();
+
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
 
   if (isLoggedIn === 'true') {
     this.router.navigateByUrl('/tabs/profile');
   } else {
     this.router.navigateByUrl('/login');
   }
-}
 
-goToReport() {
-  this.menuCtrl.close();
-
-  setTimeout(() => {
-    this.router.navigateByUrl('/tabs/report');
-  }, 200);
-}
-
-async goToAlerts() {
-  await this.menuCtrl.close(); // pehle menu close hoga
-  this.router.navigateByUrl('/tabs/alerts');
-}
-
-goToSettings() {
-  this.menuCtrl.close(); // pehle menu band
-
-  setTimeout(() => {
-    this.router.navigateByUrl('/tabs/settings');
-  }, 200); // thoda delay important hai
-}
-
-goToHistory() {
-  this.menuCtrl.close();
-
-  setTimeout(() => {
-    this.router.navigateByUrl('/tabs/history');
-  }, 200);
-}
-
-goToDashboard() {
-  this.menuCtrl.close();
-
-  setTimeout(() => {
-    this.router.navigateByUrl('/tabs/dashboard');
-  }, 200);
-}
-
-goToVehicle() {
-  this.menuCtrl.close();
-
-  setTimeout(() => {
-    this.router.navigateByUrl('/tabs/my-vehicle');
-  }, 200);
 }
 
 }

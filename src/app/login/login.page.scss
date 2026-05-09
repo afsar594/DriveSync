@@ -1,50 +1,108 @@
 .login-bg {
-  --background: linear-gradient(135deg, #0f172a, #1e293b);
+  --background: #1f2937; /* dashboard match */
+  position: relative;
+  overflow: hidden;
+  font-family: system-ui;
 }
 
-
-.login-container {
-  padding: 20px;
-  max-width: 400px;
-  margin: auto;              /* 👈 perfect center */
-  margin-top: 10vh;          /* 👈 top spacing (better than 40%) */
+/* 🔵 soft glow like dashboard */
+.top-design {
+  position: absolute;
+  top: -120px;
+  left: -100px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, #60a5fa, #1f2937);
+  border-radius: 50%;
+  opacity: 0.35;
 }
 
-@media (min-width: 768px) {
-  .login-container {
-    margin-top: 12vh;        /* laptop par thoda upar */
-  }
+/* container */
+.login-wrapper {
+  position: relative;
+  padding: 30px;
+  margin-top: 90px;
 }
-.logo {
-  text-align: center;
-  color: white;
+
+/* Title */
+.title-box {
   margin-bottom: 30px;
-
-  h2 {
-    margin-top: 10px;
-    font-weight: 600;
-  }
 }
 
-ion-item {
+.title-box h2 {
+  font-size: 18px;
+  color: #9ca3af; /* soft gray */
+  margin: 0;
+}
+
+.title-box h1 {
+  font-size: 34px;
+  font-weight: 700;
+  color: #f9fafb; /* white like dashboard text */
+  margin-top: 5px;
+}
+
+/* Input box */
+.input-box {
+  display: flex;
+  align-items: center;
+  background: #111827; /* card dark */
+  border: 1px solid #374151;
+  padding: 12px;
+  border-radius: 12px;
   margin-bottom: 15px;
-  border-radius: 12px;
-  --background: #1e293b;
-  color: white;
+  transition: 0.2s ease;
 }
 
-ion-input {
-  color: white;
+.input-box ion-icon {
+  font-size: 20px;
+  margin-right: 10px;
+  color: #60a5fa; /* primary blue */
 }
 
-ion-button {
-  margin-top: 20px;
-  --background: #3b82f6;
-  border-radius: 12px;
+/* Ionic input fix */
+.input-box ion-input {
+  --color: #f9fafb;
+  --placeholder-color: #9ca3af;
 }
 
-.forgot {
-  text-align: center;
-  margin-top: 15px;
-  color: #94a3b8;
+/* focus effect */
+.input-box:focus-within {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96,165,250,0.15);
+}
+
+/* Error */
+.error {
+  color: #f87171;
+  font-size: 12px;
+  margin: -8px 0 10px 5px;
+}
+
+/* Options */
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 10px 0 20px;
+}
+
+.options span {
+  color: #60a5fa;
+  cursor: pointer;
+}
+
+/* Button */
+.login-btn {
+  --background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  --border-radius: 12px;
+  height: 46px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+/* checkbox style (optional clean look) */
+input[type="checkbox"] {
+  accent-color: #60a5fa;
 }

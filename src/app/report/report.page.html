@@ -2,62 +2,137 @@
   <ion-toolbar>
 
     <ion-buttons slot="start">
-      <ion-back-button 
-        defaultHref="/tabs/dashboard" 
-        text="" 
+      <ion-back-button
+        defaultHref="/tabs/dashboard"
+        text=""
         icon="chevron-back-outline">
       </ion-back-button>
     </ion-buttons>
-    <ion-title>Report</ion-title>
+
+    <ion-title>Reports</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="report-content">
+
+  <!-- TOP SUMMARY -->
+  <div class="summary-wrapper">
+
+    <div class="summary-card primary">
+      <div class="summary-icon">
+        <ion-icon name="car-outline"></ion-icon>
+      </div>
+
+      <div>
+        <h2>{{ totalTrips }}</h2>
+        <p>Total Trips</p>
+      </div>
+    </div>
+
+    <div class="summary-grid">
+
+      <div class="mini-card">
+        <h3>{{ totalDistance }}</h3>
+        <span>Distance</span>
+      </div>
+
+      <div class="mini-card">
+        <h3>{{ totalTime }}</h3>
+        <span>Drive Time</span>
+      </div>
+
+    </div>
+
+  </div>
 
   <!-- FILTER -->
-  <ion-segment value="today" (ionChange)="changeFilter($event)">
-    <ion-segment-button value="today">Today</ion-segment-button>
-    <ion-segment-button value="week">Week</ion-segment-button>
-    <ion-segment-button value="month">Month</ion-segment-button>
-  </ion-segment>
+  <div class="filter-wrapper">
 
-  <!-- SUMMARY -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Total Trips: {{ totalTrips }}</ion-card-title>
-    </ion-card-header>
+    <ion-segment
+      value="today"
+      mode="ios"
+      (ionChange)="changeFilter($event)">
 
-    <ion-item>
-      <ion-label>Total Distance: {{ totalDistance }}</ion-label>
-    </ion-item>
+      <ion-segment-button value="today">
+        Today
+      </ion-segment-button>
 
-    <ion-item>
-      <ion-label>Total Time: {{ totalTime }}</ion-label>
-    </ion-item>
-  </ion-card>
+      <ion-segment-button value="week">
+        Week
+      </ion-segment-button>
+
+      <ion-segment-button value="month">
+        Month
+      </ion-segment-button>
+
+    </ion-segment>
+
+  </div>
 
   <!-- REPORT LIST -->
-  <ion-card *ngFor="let r of reports">
-    <ion-card-header>
-      <ion-card-title>{{ r.date }}</ion-card-title>
-    </ion-card-header>
+  <div class="report-list">
 
-    <ion-item>
-      <ion-label>Trips: {{ r.trips }}</ion-label>
-    </ion-item>
+    <ion-card class="report-card" *ngFor="let r of reports">
 
-    <ion-item>
-      <ion-label>Distance: {{ r.distance }} km</ion-label>
-    </ion-item>
+      <ion-card-header>
 
-    <ion-item>
-      <ion-label>Time: {{ r.time }} min</ion-label>
-    </ion-item>
-  </ion-card>
+        <div class="report-top">
 
-  <!-- EXPORT BUTTON -->
-  <ion-button expand="block" (click)="exportReport()">
-    Export Report
-  </ion-button>
+          <div>
+            <p class="report-date">{{ r.date }}</p>
+            <h2>Vehicle Activity</h2>
+          </div>
+
+          <div class="trip-badge">
+            {{ r.trips }} Trips
+          </div>
+
+        </div>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <div class="stats-row">
+
+          <div class="stat-box">
+            <ion-icon name="navigate-outline"></ion-icon>
+            <div>
+              <span>Distance</span>
+              <h3>{{ r.distance }} km</h3>
+            </div>
+          </div>
+
+          <div class="stat-box">
+            <ion-icon name="time-outline"></ion-icon>
+            <div>
+              <span>Time</span>
+              <h3>{{ r.time }} min</h3>
+            </div>
+          </div>
+
+        </div>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="action-buttons">
+
+    <ion-button expand="block" class="export-btn" (click)="exportReport()">
+      <ion-icon slot="start" name="download-outline"></ion-icon>
+      Export Report
+    </ion-button>
+
+    <ion-button expand="block" fill="outline" class="print-btn" (click)="printReport()">
+      <ion-icon slot="start" name="print-outline"></ion-icon>
+      Print Report
+    </ion-button>
+
+  </div>
 
 </ion-content>

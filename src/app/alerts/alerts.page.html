@@ -1,39 +1,111 @@
 <ion-header>
-  <ion-toolbar color="dark">
+  <ion-toolbar class="custom-toolbar">
 
     <ion-buttons slot="start">
-      <ion-back-button 
-        defaultHref="/tabs/dashboard" 
-        text="" 
+      <ion-back-button
+        defaultHref="/tabs/dashboard"
+        text=""
         icon="chevron-back-outline">
       </ion-back-button>
     </ion-buttons>
+
     <ion-title>Alerts</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="dark-bg">
 
-  <ion-button expand="block" color="danger" (click)="clearAlerts()">
-    Clear All Alerts
-  </ion-button>
+  <!-- TOP SUMMARY -->
+  <div class="top-section">
 
-  <ion-card *ngFor="let a of alerts" class="alert-card">
+    <div class="summary-card">
+      <h2>{{ alerts.length }}</h2>
+      <p>Total Alerts</p>
+    </div>
+
+    <ion-button
+      class="clear-btn"
+      expand="block"
+      (click)="clearAlerts()">
+
+      <ion-icon
+        name="trash-outline"
+        slot="start">
+      </ion-icon>
+
+      Clear All
+
+    </ion-button>
+
+  </div>
+
+  <!-- ALERTS -->
+  <ion-card
+    *ngFor="let a of alerts"
+    class="alert-card">
+
+    <div class="left-line"></div>
 
     <ion-card-header>
-      <ion-card-title>
-        <ion-icon name="notifications-outline"></ion-icon>
-        {{ a.title }}
-      </ion-card-title>
+
+      <div class="title-row">
+
+        <div class="title-wrap">
+
+          <div class="icon-box">
+            <ion-icon name="notifications-outline"></ion-icon>
+          </div>
+
+          <div>
+            <ion-card-title>
+              {{ a.title }}
+            </ion-card-title>
+
+            <span class="alert-time">
+              {{ a.time }}
+            </span>
+          </div>
+
+        </div>
+
+        <div
+          class="badge"
+          [ngClass]="{
+            'high': a.type === 'High',
+            'info': a.type === 'Info',
+            'warning': a.type === 'Warning'
+          }">
+
+          {{ a.type }}
+
+        </div>
+
+      </div>
+
     </ion-card-header>
 
     <ion-card-content>
-      <p>{{ a.message }}</p>
-      <small>{{ a.time }}</small>
 
-      <div class="badge">{{ a.type }}</div>
+      <p class="message">
+        {{ a.message }}
+      </p>
+
     </ion-card-content>
 
   </ion-card>
+
+  <!-- EMPTY STATE -->
+  <div
+    class="empty-state"
+    *ngIf="alerts.length === 0">
+
+    <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+
+    <h3>No Alerts Found</h3>
+
+    <p>Everything is running smoothly.</p>
+
+  </div>
 
 </ion-content>

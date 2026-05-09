@@ -1,27 +1,84 @@
-<ion-header>
+<ion-header class="tracking-header" translucent="true">
   <ion-toolbar>
 
+    <!-- 🔙 Back Button -->
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+      <ion-back-button 
+        defaultHref="/tabs/dashboard" 
+        text="" 
+        icon="chevron-back-outline">
+      </ion-back-button>
     </ion-buttons>
 
-    <ion-title>Live Tracking</ion-title>
+    <ion-title>My Vehicle Tracking</ion-title>
 
   </ion-toolbar>
 </ion-header>
+<ion-content fullscreen="true" class="tracking-content">
 
-<ion-content>
+  <!-- MAP -->
+  <div #mapContainer class="map-container"></div>
 
-  <div class="map-wrapper">
-    <div #mapContainer class="map-container"></div>
+   <!-- FLOATING BUTTONS -->
+  <div class="map-actions">
+
+    <button class="action-btn start-btn" (click)="startTracking()">
+      Start Tracking
+    </button>
+
+    <button class="action-btn stop-btn" (click)="stopTracking()">
+      Stop Tracking
+    </button>
+
   </div>
 
-  <ion-button expand="block" color="success" (click)="startTracking()">
-    Start Tracking
-  </ion-button>
+  <!-- TOP GLASS HEADER -->
+  <!-- <div class="top-bar">
 
-  <ion-button expand="block" color="danger" (click)="stopTracking()">
-    Stop
-  </ion-button>
+    <div class="title-box">
+      <h2>Live Vehicle Tracking</h2>
+      <p>Realtime GPS Navigation</p>
+    </div>
+
+    <div class="status-pill" [class.active]="isTracking">
+      {{ isTracking ? 'LIVE' : 'OFFLINE' }}
+    </div>
+
+  </div> -->
+
+  <!-- BOTTOM CONTROL CARD -->
+  <!-- <div class="bottom-card">
+
+    <div class="route-info">
+
+      <div class="info-box">
+        <span class="label">STATUS</span>
+        <span class="value">
+          {{ isTracking ? 'Moving' : 'Stopped' }}
+        </span>
+      </div>
+
+      <div class="info-box">
+        <span class="label">ROUTE</span>
+        <span class="value">
+          Rahim Yar Khan
+        </span>
+      </div>
+
+    </div>
+
+    <div class="btn-group">
+
+      <button class="start-btn" (click)="startTracking()">
+        Start Tracking
+      </button>
+
+      <button class="stop-btn" (click)="stopTracking()">
+        Stop
+      </button>
+
+    </div>
+
+  </div> -->
 
 </ion-content>

@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { 
-  IonContent, IonHeader, IonTitle, IonToolbar,
-  IonItem, IonInput, IonButton 
+import {
+  IonContent, IonInput, IonButton, IonIcon
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -14,8 +13,7 @@ import {
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [
-    IonContent, IonHeader, IonTitle, IonToolbar,
-    IonItem, IonInput, IonButton,
+    IonContent, IonInput, IonButton, IonIcon,
     CommonModule, ReactiveFormsModule
   ]
 })
@@ -32,17 +30,10 @@ export class LoginPage implements OnInit {
     });
   }
 
- login() {
-  if (this.loginForm.valid) {
-    localStorage.setItem('isLoggedIn', 'true');
-
-    this.router.navigateByUrl('/tabs/profile', { replaceUrl: true });
+  login() {
+    if (this.loginForm.valid) {
+      localStorage.setItem('isLoggedIn', 'true');
+       this.router.navigateByUrl('/tabs/dashboard');
+    }
   }
-}
-
-   navigateToDashboard() {
-    this.router.navigate(['/tabs'], { replaceUrl: true });
-  }
-
-
 }

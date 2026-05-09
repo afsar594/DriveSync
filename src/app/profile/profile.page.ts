@@ -1,12 +1,42 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+
 import {
-  IonHeader, IonToolbar, IonTitle, IonContent,
-  IonCard, IonCardHeader, IonCardTitle, IonCardContent,
-  IonItem, IonLabel, IonButton, IonToggle,
-  IonButtons, IonBackButton
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonItem,
+  IonLabel,
+  IonButton,
+  IonToggle,
+  IonButtons,
+  IonBackButton,
+  IonInput,
+  IonIcon
 } from '@ionic/angular/standalone';
+
+import { addIcons } from 'ionicons';
+import {
+  camera,
+  createOutline,
+  checkmarkOutline,
+  personOutline,
+  callOutline,
+  locationOutline,
+  settingsOutline,
+  notificationsOutline,
+  moonOutline,
+  statsChartOutline,
+  logOutOutline,
+  chevronBackOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-profile',
@@ -14,21 +44,32 @@ import {
   styleUrls: ['./profile.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, FormsModule,
-    IonHeader, IonToolbar, IonTitle, IonContent,
-    IonCard, IonCardHeader, IonCardTitle, IonCardContent,
-    IonItem, IonLabel, IonButton, IonToggle,
-    IonButtons, IonBackButton
+    CommonModule,
+    ReactiveFormsModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonItem,
+    IonLabel,
+    IonButton,
+    IonToggle,
+    IonButtons,
+    IonBackButton,
+    IonInput,
+    IonIcon
   ]
 })
 export class ProfilePage {
 
-  user = {
-    name: 'Samina Tahir',
-    email: 'samina@email.com',
-    phone: '0300-0000000',
-    address: 'Punjab, Pakistan'
-  };
+  profileForm!: FormGroup;
+  isEditing = false;
+
+  profileImage = 'https://i.pinimg.com/736x/52/e5/96/52e596ed062faeaacf73a20579f1e1c8.jpg';
 
   stats = {
     totalVehicles: 2,
@@ -36,13 +77,64 @@ export class ProfilePage {
     activeVehicles: 1
   };
 
-  settings = {
-    notifications: true,
-    darkMode: true
-  };
+  constructor(private fb: FormBuilder, private router: Router) {
+
+    addIcons({
+      camera,
+      createOutline,
+      checkmarkOutline,
+      personOutline,
+      callOutline,
+      locationOutline,
+      settingsOutline,
+      notificationsOutline,
+      moonOutline,
+      statsChartOutline,
+      logOutOutline,
+      chevronBackOutline
+    });
+
+    this.profileForm = this.fb.group({
+      name: ['Samina Tahir'],
+      email: ['samina@email.com'],
+      phone: ['0300-0000000'],
+      address: ['Punjab, Pakistan'],
+      notifications: [true],
+      darkMode: [true]
+    });
+
+  }
+
+  toggleEdit() {
+    this.isEditing = true;
+  }
+
+  saveProfile() {
+    this.isEditing = false;
+    console.log('Saved:', this.profileForm.value);
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+  }
+
+  onImageChange(event: any) {
+
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profileImage = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+
+  }
 
   logout() {
     localStorage.removeItem('isLoggedIn');
-    console.log('Logged out');
+    this.router.navigateByUrl('/login');
   }
+
 }

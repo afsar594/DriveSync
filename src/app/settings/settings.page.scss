@@ -1,101 +1,364 @@
+/* =========================
+🌑 MAIN BACKGROUND
+========================= */
+
 .settings-bg {
-  --background: #0b1220;
-  color: #e5e7eb;
-  padding: 12px;
+  --background: linear-gradient(
+    180deg,
+    #0b1220 0%,
+    #111827 100%
+  );
+
+  color: #f9fafb;
+
+  padding: 14px;
 }
 
+/* =========================
+🌑 HEADER
+========================= */
+
+ion-toolbar {
+  --background: #111827;
+  --color: #ffffff;
+
+  --min-height: 72px;
+
+  padding: 8px 10px;
+
+  border-bottom: 1px solid #1f2937;
+}
+
+ion-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* =========================
+🌑 CARD DESIGN
+========================= */
+
 .card {
-  background: #111827;
-  border: 1px solid #2d3748;
-  border-radius: 14px;
-  margin-bottom: 14px;
+  background: rgba(17, 24, 39, 0.92);
+
+  border: 1px solid rgba(59, 130, 246, 0.12);
+
+  border-radius: 24px;
+
+  margin-bottom: 18px;
+
+  overflow: hidden;
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+ion-card-header {
+  padding-bottom: 6px;
 }
 
 ion-card-title {
-  color: #f9fafb;
+  color: #ffffff;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+}
+
+/* =========================
+🌑 LIST / ITEMS
+========================= */
+
+ion-list {
+  background: transparent;
+  padding: 6px;
 }
 
 ion-item {
-  --background: transparent;
-  --color: #e5e7eb;
-  --border-color: #2d3748;
+
+  --background: rgba(31, 41, 55, 0.75);
+
+  --color: #f9fafb;
+
+  --border-color: transparent;
+
+  --padding-start: 16px;
+  --padding-end: 14px;
+
+  --min-height: 64px;
+
+  border-radius: 18px;
+
+  margin-bottom: 10px;
+
+  transition: 0.25s ease;
+
+  border: 1px solid rgba(255,255,255,0.04);
 }
+
+ion-item:hover {
+  transform: scale(1.01);
+
+  --background: rgba(37, 99, 235, 0.15);
+}
+
+ion-label {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* =========================
+🌑 ICONS
+========================= */
 
 ion-icon {
   color: #60a5fa;
+
+  font-size: 22px;
+
+  margin-right: 12px;
 }
+
+/* =========================
+🌑 TOGGLE
+========================= */
+
+ion-toggle {
+  --track-background: #1f2937;
+  --track-background-checked: #2563eb;
+
+  --handle-background: #ffffff;
+  --handle-background-checked: #ffffff;
+}
+
+/* =========================
+🌑 LOGOUT BUTTON
+========================= */
 
 .logout {
-  margin-top: 20px;
+  margin-top: 28px;
+  margin-bottom: 24px;
 }
 
-ion-modal {
-  --border-radius: 20px;
+.logout ion-button {
+
+  --background: linear-gradient(
+    135deg,
+    #dc2626,
+    #ef4444
+  );
+
+  --border-radius: 18px;
+
+  height: 56px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  letter-spacing: 0.4px;
+
+  box-shadow:
+    0 10px 25px rgba(239,68,68,0.35);
 }
 
-.save-btn {
-  margin-top: 20px;
-}
-
-ion-input {
-  --color: white;
-}
-
-/* BACKDROP */
+/* =========================
+🌑 POPUP OVERLAY
+========================= */
 
 .popup-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
 
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(6px);
+  inset: 0;
+
+  background: rgba(0,0,0,0.72);
+
+  backdrop-filter: blur(8px);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  z-index: 9999;
+  z-index: 99999;
 
   padding: 20px;
+
+  animation: fadeIn 0.25s ease;
 }
 
-/* POPUP BOX */
+/* =========================
+🌑 POPUP BOX
+========================= */
 
 .custom-popup {
+
   width: 100%;
-  max-width: 420px;
+  max-width: 430px;
 
   background: #111827;
 
-  border: 1px solid #2d3748;
+  border: 1px solid rgba(59,130,246,0.2);
 
-  border-radius: 24px;
+  border-radius: 30px;
 
-  padding: 22px;
+  padding: 24px;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.5);
+    0 20px 40px rgba(0,0,0,0.45);
 
   animation: popupAnim 0.25s ease;
 }
 
-.custom-toast {
+/* =========================
+🌑 POPUP HEADER
+========================= */
 
-  --border-radius: 14px;
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 24px;
+}
+
+.popup-header h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.popup-header ion-icon {
+  font-size: 28px;
+
+  color: #9ca3af;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.popup-header ion-icon:hover {
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* =========================
+🌑 INPUTS
+========================= */
+
+.custom-input {
+  margin-bottom: 18px;
+}
+
+.custom-input label {
+  display: block;
+
+  color: #d1d5db;
+
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.custom-input input {
+
+  width: 100%;
+
+  background: #1f2937;
+
+  border: 1px solid #374151;
+
+  border-radius: 16px;
+
+  padding: 15px 16px;
+
+  color: white;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.3s ease;
+}
+
+.custom-input input:focus {
+
+  border-color: #3b82f6;
+
+  box-shadow:
+    0 0 0 4px rgba(59,130,246,0.18);
+}
+
+/* =========================
+🌑 SAVE BUTTON
+========================= */
+
+.save-btn {
+
+  width: 100%;
+
+  margin-top: 10px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  padding: 16px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #3b82f6
+  );
+
+  color: white;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+
+  box-shadow:
+    0 12px 28px rgba(37,99,235,0.35);
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+🌑 TOAST
+========================= */
+
+.custom-toast {
 
   --background: #16a34a;
 
   --color: white;
 
-  font-weight: 600;
+  --border-radius: 14px;
 
-  text-align: center;
+  font-weight: 600;
 }
 
-/* CLOSE ANIMATION */
+/* =========================
+🌑 ANIMATIONS
+========================= */
 
 .popup-overlay.closing {
   animation: fadeOut 0.3s ease forwards;
@@ -103,6 +366,19 @@ ion-input {
 
 .popup-overlay.closing .custom-popup {
   animation: popupClose 0.3s ease forwards;
+}
+
+@keyframes popupAnim {
+
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes popupClose {
@@ -118,6 +394,17 @@ ion-input {
   }
 }
 
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes fadeOut {
 
   from {
@@ -126,122 +413,5 @@ ion-input {
 
   to {
     opacity: 0;
-  }
-}
-
-/* HEADER */
-
-.popup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  margin-bottom: 22px;
-}
-
-.popup-header h2 {
-  color: white;
-  font-size: 22px;
-  font-weight: 700;
-  margin: 0;
-}
-
-.popup-header ion-icon {
-  font-size: 26px;
-  color: #9ca3af;
-  cursor: pointer;
-}
-
-/* INPUT */
-
-.custom-input {
-  margin-bottom: 18px;
-}
-
-.custom-input label {
-  display: block;
-
-  color: #d1d5db;
-
-  font-size: 14px;
-
-  margin-bottom: 8px;
-}
-
-.custom-input input {
-
-  width: 100%;
-
-  background: #1f2937;
-
-  border: 1px solid #374151;
-
-  border-radius: 14px;
-
-  padding: 14px;
-
-  color: white;
-
-  font-size: 15px;
-
-  outline: none;
-
-  transition: 0.3s;
-}
-
-.custom-input input:focus {
-  border-color: #3b82f6;
-
-  box-shadow:
-    0 0 0 3px rgba(59,130,246,0.2);
-}
-
-/* BUTTON */
-
-.save-btn {
-
-  width: 100%;
-
-  margin-top: 10px;
-
-  background: linear-gradient(
-    135deg,
-    #2563eb,
-    #3b82f6
-  );
-
-  border: none;
-
-  padding: 15px;
-
-  border-radius: 14px;
-
-  color: white;
-
-  font-size: 16px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.3s;
-}
-
-.save-btn:hover {
-  transform: translateY(-2px);
-}
-
-/* ANIMATION */
-
-@keyframes popupAnim {
-
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
   }
 }

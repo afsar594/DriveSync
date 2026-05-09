@@ -5,6 +5,15 @@
   padding: 14px;
 }
 
+ion-toolbar {
+  --background: #1f2937;
+  --color: #f9fafb;
+  --min-height: 70px;
+  padding: 10px 8px;
+  border-bottom: 1px solid #374151;
+}
+
+
 /* Filters */
 .filters {
   display: flex;

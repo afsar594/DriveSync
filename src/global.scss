@@ -36,7 +36,8 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
-@import "maplibre-gl/dist/maplibre-gl.css";
+// @import "maplibre-gl/dist/maplibre-gl.css";
+@import 'maplibre-gl/dist/maplibre-gl.css';
 
 ion-menu {
   --width: 280px;
@@ -93,4 +94,20 @@ ion-item::part(native) {
 
 html, body, ion-app, ion-content {
   height: 100%;
+}
+
+/* Scrollbar hide - Ionic fix */
+ion-content {
+  --overflow: hidden;
+  
+  &::part(scroll) {
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+    &::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+    }
+  }
 }

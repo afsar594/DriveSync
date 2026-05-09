@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 import {
   IonContent,
@@ -17,77 +16,87 @@ import {
   IonTitle,
   IonButtons,
   IonBackButton,
-  IonButton,
-  IonIcon,
-  IonFab,
-  IonFabButton
 } from '@ionic/angular/standalone';
 
 import * as maplibregl from 'maplibre-gl';
 
 @Component({
   selector: 'app-tracking',
-  templateUrl: 'tracking.page.html',
-  styleUrls: ['tracking.page.scss'],
+  templateUrl: './tracking.page.html',
+  styleUrls: ['./tracking.page.scss'],
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     IonContent,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonButtons,
     IonBackButton,
-    IonButton,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TrackingPage implements AfterViewInit {
 
-  @ViewChild('mapContainer') mapContainer!: ElementRef;
+  @ViewChild('mapContainer')
+  mapContainer!: ElementRef;
 
   map!: maplibregl.Map;
   marker!: maplibregl.Marker;
 
-  routeCoords: [number, number][] = [];
+  mapLoaded = false;
 
   isTracking = false;
   isLoading = false;
-  isOnline = false;
 
-  totalDistance: number = 0;
+  totalDistance = 0;
+  speed = 0;
 
-  currentLocation: any = null;
   lastSeen = '';
+
+  routeCoords: [number, number][] = [];
 
   constructor(private ngZone: NgZone) {}
 
-  // ================= INIT MAP =================
-  ngAfterViewInit() {
+  // =========================
+  // INIT
+  // =========================
+
+  ngAfterViewInit(): void {
     this.initMap();
   }
 
-  initMap() {
+  // =========================
+  // MAP
+  // =========================
+
+  initMap(): void {
 
     const startPoint: [number, number] = [70.295, 28.420];
 
     this.map = new maplibregl.Map({
       container: this.mapContainer.nativeElement,
-      style: `https://api.mapbox.com/styles/v1/mapbox/navigation-night-v1?access_token=YOUR_TOKEN`,
+      style: 'https://tiles.openfreemap.org/styles/liberty',
       center: startPoint,
-      zoom: 14
+      zoom: 15.5,
+pitch: 60,
+bearing: -20
     });
 
     this.map.on('load', () => {
 
+      this.mapLoaded = true;
+
+      console.log('MAP LOADED');
+
+      // VEHICLE MARKER
       this.marker = new maplibregl.Marker({
-        color: '#ff0000',
-        rotationAlignment: 'map'
+        color: '#00e5ff'
       })
         .setLngLat(startPoint)
         .addTo(this.map);
 
+      // ROUTE SOURCE
       this.map.addSource('route', {
         type: 'geojson',
         data: {
@@ -100,165 +109,176 @@ export class TrackingPage implements AfterViewInit {
         }
       });
 
+      // ROUTE LAYER
       this.map.addLayer({
         id: 'route-line',
         type: 'line',
         source: 'route',
         paint: {
           'line-color': '#00e5ff',
-          'line-width': 4
+'line-width': 7,
+'line-opacity': 0.9
         }
       });
+
     });
+
   }
 
-  // ================= START TRACKING =================
-  startTracking() {
+  // =========================
+  // START TRACKING
+  // =========================
+
+  startTracking(): void {
+
+    if (!this.mapLoaded) {
+      alert('Map still loading...');
+      return;
+    }
 
     if (this.isTracking) return;
 
     this.isTracking = true;
     this.isLoading = true;
+
     this.totalDistance = 0;
 
-    // 🔥 TEST ROUTE (REAL ROAD)
-    const start = '70.295,28.420';
-    const end = '70.330,28.455';
-
     const url =
-      `https://router.project-osrm.org/route/v1/driving/${start};${end}?overview=full&geometries=geojson`;
+      'https://router.project-osrm.org/route/v1/driving/70.295,28.420;70.330,28.455?overview=full&geometries=geojson';
 
     fetch(url)
       .then(res => res.json())
       .then(data => {
+
+        console.log(data);
 
         this.routeCoords = data.routes[0].geometry.coordinates;
 
         this.isLoading = false;
 
         this.animateVehicle();
+
       })
-      .catch(() => {
+      .catch(error => {
+
+        console.log(error);
+
         this.isLoading = false;
         this.isTracking = false;
+
       });
+
   }
 
-  // ================= ANIMATION =================
-  animateVehicle() {
+  // =========================
+  // ANIMATION
+  // =========================
 
-    let i = 0;
+animateVehicle() {
 
-    const move = () => {
+  if (!this.marker) return;
 
-      if (!this.isTracking) return;
+  let i = 0;
 
-      if (i >= this.routeCoords.length - 1) {
-        this.isTracking = false;
-        return;
+  const interval = setInterval(() => {
+
+    if (!this.isTracking || i >= this.routeCoords.length) {
+      clearInterval(interval);
+      this.isTracking = false;
+      return;
+    }
+
+    const coord = this.routeCoords[i] as [number, number];
+
+    // MOVE MARKER
+    this.marker.setLngLat(coord);
+
+    // ⭐ IMPORTANT: MOVE MAP WITH MARKER
+    this.map.jumpTo({
+  center: coord,
+  zoom: 15
+});
+
+    // ROUTE UPDATE
+    const source = this.map.getSource('route') as maplibregl.GeoJSONSource;
+
+    source.setData({
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: this.routeCoords.slice(0, i + 1)
       }
+    });
 
-      const current = this.routeCoords[i];
-      const next = this.routeCoords[i + 1];
+    i++;
 
-      const [lng, lat] = current;
+  }, 120);
+}
+  // =========================
+  // STOP
+  // =========================
 
-      // 🔥 ROTATION
-      const heading = this.getBearing(current, next);
-
-      this.marker.setLngLat([lng, lat]);
-      this.marker.setRotation(heading);
-
-      this.map.setCenter([lng, lat]);
-
-      // 🔥 DISTANCE
-      this.totalDistance += this.getDistance(current, next);
-
-      // 🔥 ROUTE UPDATE
-      const source = this.map.getSource('route') as maplibregl.GeoJSONSource;
-
-      source.setData({
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'LineString',
-          coordinates: this.routeCoords.slice(0, i + 1)
-        }
-      });
-
-      // 🔥 UI UPDATE
-      this.ngZone.run(() => {
-
-        this.currentLocation = {
-          latitude: lat,
-          longitude: lng,
-          speed: 30 + Math.random() * 20,
-          heading: heading
-        };
-
-        this.lastSeen = new Date().toLocaleTimeString();
-        this.isOnline = true;
-      });
-
-      i++;
-
-      setTimeout(() => requestAnimationFrame(move), 40);
-    };
-
-    move();
-  }
-
-  // ================= STOP =================
-  stopTracking() {
+  stopTracking(): void {
     this.isTracking = false;
   }
 
-  // ================= RECENTER =================
-  recenterMap() {
-    if (this.currentLocation) {
-      this.map.setCenter([
-        this.currentLocation.longitude,
-        this.currentLocation.latitude
-      ]);
-    }
+  // =========================
+  // RECENTER
+  // =========================
+
+  recenterMap(): void {
+
+    if (!this.marker) return;
+
+    const lngLat = this.marker.getLngLat();
+
+    this.map.flyTo({
+      center: [lngLat.lng, lngLat.lat],
+      zoom: 15
+    });
+
   }
 
-  // ================= BEARING =================
-  getBearing(start: [number, number], end: [number, number]) {
+  // =========================
+  // DISTANCE
+  // =========================
 
-    const y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
-    const x =
-      Math.cos(start[1]) * Math.sin(end[1]) -
-      Math.sin(start[1]) * Math.cos(end[1]) *
-      Math.cos(end[0] - start[0]);
-
-    return (Math.atan2(y, x) * 180) / Math.PI;
-  }
-
-  // ================= DISTANCE =================
-  getDistance(a: [number, number], b: [number, number]) {
+  getDistance(
+    a: [number, number],
+    b: [number, number]
+  ): number {
 
     const R = 6371;
 
-    const dLat = (b[1] - a[1]) * Math.PI / 180;
-    const dLng = (b[0] - a[0]) * Math.PI / 180;
+    const dLat =
+      ((b[1] - a[1]) * Math.PI) / 180;
 
-    const lat1 = a[1] * Math.PI / 180;
-    const lat2 = b[1] * Math.PI / 180;
+    const dLng =
+      ((b[0] - a[0]) * Math.PI) / 180;
+
+    const lat1 =
+      (a[1] * Math.PI) / 180;
+
+    const lat2 =
+      (b[1] * Math.PI) / 180;
 
     const x =
-      Math.sin(dLat / 2) ** 2 +
-      Math.sin(dLng / 2) ** 2 *
-      Math.cos(lat1) *
-      Math.cos(lat2);
+      Math.sin(dLat / 2) *
+        Math.sin(dLat / 2) +
+      Math.sin(dLng / 2) *
+        Math.sin(dLng / 2) *
+        Math.cos(lat1) *
+        Math.cos(lat2);
 
-    return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+    return (
+      R *
+      2 *
+      Math.atan2(
+        Math.sqrt(x),
+        Math.sqrt(1 - x)
+      )
+    );
   }
 
-  // ================= SPEED CLASS =================
-  getSpeedClass(speed: number) {
-    if (speed < 40) return 'slow';
-    if (speed < 80) return 'normal';
-    return 'fast';
-  }
 }
