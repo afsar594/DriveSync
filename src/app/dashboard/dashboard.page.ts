@@ -58,6 +58,10 @@ todayStops: number = 3;
     this.isTracking = this.trackingService.isTrackingActive();
   }
 
+  ionViewWillEnter() {
+  this.isTracking = this.trackingService.isTrackingActive();
+}
+
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }

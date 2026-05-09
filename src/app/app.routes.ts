@@ -1,21 +1,38 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-   {
+  
+  {
     path: '',
-    redirectTo: 'tabs', // ✅ pehle tabs load honge
+    redirectTo: 'login',
     pathMatch: 'full'
   },
-
   {
-    path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.routes').then(m => m.routes),
-  },
-
+  path: 'profile',
+  loadComponent: () =>
+    import('./profile/profile.page').then(m => m.ProfilePage)
+},
   {
     path: 'login',
-    loadComponent: () => import('./login/login.page').then(m => m.LoginPage)
+    loadComponent: () =>
+      import('./login/login.page').then(m => m.LoginPage)
   },
+   {
+    path: 'tabs',
+    loadChildren: () =>
+      import('./tabs/tabs.routes').then(m => m.routes)
+  },
+
+  // {
+  //   path: 'tabs',
+  //   loadChildren: () => import('./tabs/tabs.routes').then(m => m.routes),
+  // },
+
+  // {
+  //   path: 'login',
+  //   loadComponent: () => import('./login/login.page').then(m => m.LoginPage)
+  // },
+  
  {
     path: '',
     loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
