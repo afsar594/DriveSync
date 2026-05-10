@@ -6,6 +6,7 @@ import {
   NgZone,
   CUSTOM_ELEMENTS_SCHEMA
 } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { CommonModule } from '@angular/common';
 
@@ -15,7 +16,7 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonBackButton,
+  IonButton,
 } from '@ionic/angular/standalone';
 
 import * as maplibregl from 'maplibre-gl';
@@ -32,7 +33,7 @@ import * as maplibregl from 'maplibre-gl';
     IonToolbar,
     IonTitle,
     IonButtons,
-    IonBackButton,
+    IonButton,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
@@ -56,7 +57,9 @@ export class TrackingPage implements AfterViewInit {
 
   routeCoords: [number, number][] = [];
 
-  constructor(private ngZone: NgZone) {}
+  constructor(private ngZone: NgZone,
+    private location: Location
+  ) {}
 
   // =========================
   // INIT
@@ -281,4 +284,7 @@ animateVehicle() {
     );
   }
 
+  goBack() {
+  this.location.back();
+}
 }

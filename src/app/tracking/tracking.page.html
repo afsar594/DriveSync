@@ -2,13 +2,12 @@
   <ion-toolbar>
 
     <!-- 🔙 Back Button -->
-    <ion-buttons slot="start">
-      <ion-back-button 
-        defaultHref="/tabs/dashboard" 
-        text="" 
-        icon="chevron-back-outline">
-      </ion-back-button>
-    </ion-buttons>
+    <!-- 🔙 Custom Back Button -->
+<ion-buttons slot="start">
+  <ion-button (click)="goBack()">
+    <ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+</ion-buttons>
 
     <ion-title>My Vehicle Tracking</ion-title>
 

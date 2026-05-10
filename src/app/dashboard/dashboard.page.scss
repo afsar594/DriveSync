@@ -4,6 +4,7 @@ ion-content {
   font-family: system-ui;
   position: relative;
   overflow-x: hidden;
+    --offset-top: 0px;
 }
 
 /* 🔵 soft glow background */
@@ -177,15 +178,36 @@ ion-icon {
 }
 
 .quick-actions ion-button {
-  // --background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  --background: transparent;
   --border-radius: 14px;
+  --border-width: 1.5px;
+  --border-style: solid;
+  --border-color: #60a5fa;
+
+  color: #60a5fa;
   height: 54px;
   font-weight: 600;
   text-transform: none;
-  color: white;
-  // box-shadow: 0 8px 18px rgba(59,130,246,0.3);
+  box-shadow: none;
+
+  transition: all 0.25s ease;
 }
 
+/* 🔥 HOVER EFFECT */
+.quick-actions ion-button:hover {
+  // --background: rgba(96, 165, 250, 0.08);
+  transform: translateY(-2px);
+  // box-shadow: 0 5px 12px rgba(96, 165, 250, 0.25);
+  --border-color: #93c5fd;
+  color: #93c5fd;
+}
+
+/* ICON SAME HOVER */
+.quick-actions ion-button:hover ion-icon {
+  color: #93c5fd;
+  transform: scale(1.1);
+  transition: 0.2s ease;
+}
 
 .quick-actions ion-button ion-icon {
   margin-right: 8px;

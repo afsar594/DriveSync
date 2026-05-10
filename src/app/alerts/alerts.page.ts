@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Location } from '@angular/common';
 
 import {
   IonContent,
@@ -13,7 +14,6 @@ import {
   IonIcon,
   IonButton,
   IonButtons,
-  IonBackButton
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -34,10 +34,10 @@ import {
     IonIcon,
     IonButton,
     IonButtons,
-    IonBackButton
   ]
 })
 export class AlertsPage {
+  constructor(private location: Location) {}
 
   alerts = [
     {
@@ -63,5 +63,9 @@ export class AlertsPage {
   clearAlerts() {
     this.alerts = [];
   }
+
+  goBack() {
+  this.location.back();
+}
 
 }

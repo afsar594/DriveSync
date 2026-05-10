@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import {
   IonHeader,
@@ -17,7 +18,6 @@ import {
   IonButton,
   IonToggle,
   IonButtons,
-  IonBackButton,
   IonInput,
   IonIcon
 } from '@ionic/angular/standalone';
@@ -59,9 +59,8 @@ import {
     IonButton,
     IonToggle,
     IonButtons,
-    IonBackButton,
     IonInput,
-    IonIcon
+    IonIcon,
   ]
 })
 export class ProfilePage {
@@ -77,7 +76,7 @@ export class ProfilePage {
     activeVehicles: 1
   };
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router , private location: Location) {
 
     addIcons({
       camera,
@@ -136,5 +135,8 @@ export class ProfilePage {
     localStorage.removeItem('isLoggedIn');
     this.router.navigateByUrl('/login');
   }
+  goBack() {
+  this.location.back();
+}
 
 }

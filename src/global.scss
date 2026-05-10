@@ -38,18 +38,26 @@
 
 // @import "maplibre-gl/dist/maplibre-gl.css";
 @import 'maplibre-gl/dist/maplibre-gl.css';
+/* =========================
+   🌑 MODERN DARK MENU THEME
+   ========================= */
 
 ion-menu {
   --width: 280px;
+  --background: #1f2937;
+
+  font-family: system-ui;
 }
 
-/* MENU ITEMS CLEAN STYLE */
-ion-item {
-  --background: transparent;
-  --color: inherit;
+/* MENU ITEMS */
+ion-menu ion-item {
+  --background: #111827;
+  --color: #e2e8f0;
 
-  margin: 6px 10px;
+  margin: 8px 12px;
   border-radius: 12px;
+
+  border: 1px solid #374151;
 
   --padding-start: 12px;
   --inner-padding-end: 10px;
@@ -58,33 +66,101 @@ ion-item {
   font-weight: 500;
 
   transition: 0.25s ease;
+
+  /* remove ionic ripple */
+  --ripple-color: transparent;
 }
 
-/* 👇 ICON SIZE SMALL (MAIN FIX) */
-ion-item ion-icon {
-  font-size: 18px;   /* smaller icon */
+/* ICON */
+ion-menu ion-item ion-icon {
+  font-size: 18px;
   margin-right: 10px;
+
+  color: #60a5fa;
+
   transition: 0.25s ease;
 }
 
-/* 👇 HOVER EFFECT (MODERN LOOK) */
-ion-item:hover {
-  --background: rgba(255, 255, 255, 0.06);
-  transform: translateX(5px);
-  color: blue;
+/* LABEL / TEXT */
+ion-menu ion-label {
+  color: #e2e8f0;
+  transition: 0.25s ease;
 }
 
-/* ICON HOVER EFFECT */
-ion-item:hover ion-icon {
-  transform: scale(1.1);
-  color: blue;
+/* 🔥 HOVER EFFECT */
+ion-menu ion-item:hover {
+  --background: #0f172a; /* darker hover */
+
+  border-color: #475569;
+
+  transform: translateX(4px);
+
+  color: #f9fafb;
 }
 
-/* ACTIVE ITEM (SUBTLE STYLING) */
-ion-item.activated {
-  --background: rgba(255, 255, 255, 0.1);
+/* 🔥 HOVER LABEL */
+ion-menu ion-item:hover ion-label {
+  color: #f9fafb;
+}
+
+/* 🔥 HOVER ICON */
+ion-menu ion-item:hover ion-icon {
+  color: #93c5fd;
+
+  transform: scale(1.05);
+}
+
+/* 🔥 ACTIVE ITEM */
+ion-menu ion-item.ion-activated {
+  --background: #0f172a;
+
+  border-color: #60a5fa;
+
+  color: #f9fafb;
+
   font-weight: 600;
-  color: blue;
+}
+
+/* ACTIVE LABEL */
+ion-menu ion-item.ion-activated ion-label {
+  color: #f9fafb;
+}
+
+/* ACTIVE ICON */
+ion-menu ion-item.ion-activated ion-icon {
+  color: #93c5fd;
+}
+
+/* REMOVE DEFAULT IONIC LINE */
+ion-menu ion-item::part(native) {
+  border: none;
+  box-shadow: none;
+}
+
+/* 🌑 MENU BACKGROUND DARK */
+ion-menu {
+  --background: #1f2937;
+}
+
+/* CONTENT BACKGROUND */
+ion-menu ion-content {
+  --background: #1f2937;
+}
+
+/* LIST BACKGROUND */
+ion-menu ion-list {
+  background: #1f2937 !important;
+}
+
+/* TOOLBAR DARK */
+ion-menu ion-toolbar {
+  --background: #111827;
+  --color: #f9fafb;
+}
+
+/* TITLE */
+ion-menu ion-title {
+  color: #f9fafb;
 }
 
 /* REMOVE DEFAULT LINES */
@@ -111,3 +187,46 @@ ion-content {
     }
   }
 }
+
+/* ========================= */
+/* 🚀 MODERN TAB BAR FOOTER */
+/* ========================= */
+
+ion-tab-bar {
+  --background: #111827;   /* dark card style */
+
+  height: 70px;
+
+  padding-bottom: env(safe-area-inset-bottom);
+
+  backdrop-filter: blur(10px);
+}
+
+/* TAB BUTTON */
+ion-tab-button {
+  --color: #9ca3af;        /* inactive */
+  --color-selected: #60a5fa; /* active blue */
+
+  font-size: 11px;
+  font-weight: 500;
+
+  transition: all 0.25s ease;
+}
+
+/* ICON STYLE */
+ion-tab-button ion-icon {
+  font-size: 20px;
+  transition: 0.3s ease;
+}
+
+/* ACTIVE TAB EFFECT */
+ion-tab-button.tab-selected {
+  transform: translateY(-2px);
+}
+
+
+/* LABEL spacing */
+ion-tab-button ion-label {
+  margin-top: 3px;
+}
+

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import jsPDF from 'jspdf';
+import { Location } from '@angular/common';
 
 import {
   IonHeader,
@@ -37,12 +38,13 @@ import {
     IonSegmentButton,
     IonButtons,
     IonBackButton,
-    IonIcon
+    IonIcon,
   ]
 })
 export class ReportPage {
 
   selectedFilter = 'today';
+  constructor(private location: Location) {}
 
   reports = [
     { date: '2026-05-01', trips: 5, distance: 40, time: 120 },
@@ -120,5 +122,9 @@ export class ReportPage {
   printReport() {
     window.print();
   }
+
+  goBack() {
+  this.location.back();
+}
 
 }

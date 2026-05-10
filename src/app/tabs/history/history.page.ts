@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Location } from '@angular/common';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar,
-  IonButtons, IonBackButton, IonIcon
+  IonButtons, IonIcon,IonButton,
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -17,15 +18,17 @@ imports: [
   IonTitle, 
   IonToolbar,
   IonButtons,
-  IonBackButton,
   CommonModule, 
   FormsModule,
-  IonIcon
+  IonIcon,
+  IonButton,
 ]
 })
 export class HistoryPage {
 
   selectedFilter = 'Today';
+
+  constructor(private location: Location) {}
 
   trips: any[] = [
     {
@@ -82,4 +85,8 @@ export class HistoryPage {
   viewMap(trip: any) {
     console.log('View on map:', trip);
   }
+
+  goBack() {
+  this.location.back();
+}
 }

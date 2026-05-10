@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonButtons, IonBackButton } from '@ionic/angular/standalone';
+import { IonButtons } from '@ionic/angular/standalone';
 import { closeOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { ToastController } from '@ionic/angular';
+import { Location } from '@angular/common';
 import {
   IonHeader,
   IonToolbar,
@@ -19,6 +20,7 @@ import {
   IonIcon,
   IonToggle,
   IonButton,
+  
 } from '@ionic/angular/standalone';
 addIcons({
   closeOutline
@@ -45,12 +47,12 @@ addIcons({
     IonToggle,
     IonButton,
     IonButtons,
-  IonBackButton,
   ]})
 export class SettingsPage implements OnInit {
 
   constructor(
-  private toastController: ToastController
+  private toastController: ToastController,
+  private location: Location
 ) {}
 
   ngOnInit() {
@@ -139,6 +141,10 @@ async saveAction(message: string) {
     this.closeModal();
 
   }, 100);
+}
+
+goBack() {
+  this.location.back();
 }
 
 }

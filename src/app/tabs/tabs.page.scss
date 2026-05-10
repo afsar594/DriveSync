@@ -1,1 +1,28 @@
+ion-tab-bar {
+  --background: #0b1120 !important;
+  --border: transparent !important;
 
+  border: none !important;
+  border-top: none !important;
+  box-shadow: none !important;
+
+  background: #0b1120 !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Ionic iOS Hairline Fix */
+ion-tab-bar::before,
+ion-tab-bar::after {
+  display: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Safe area fix */
+ion-tabs {
+  --ion-background-color: #0b1120;
+  background: #0b1120;
+}

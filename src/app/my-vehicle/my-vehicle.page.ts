@@ -5,7 +5,6 @@ import {
   IonTitle, 
   IonContent,
   IonButtons,
-  IonBackButton,
   IonButton,
   IonIcon
 } from '@ionic/angular/standalone';
@@ -13,6 +12,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VehicleService, Vehicle } from '../services/vehicle.service';
+import { Location } from '@angular/common';
 
 /* 🔥 ICONS IMPORT */
 import { addIcons } from 'ionicons';
@@ -40,7 +40,6 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonBackButton,
   IonButton,
   IonIcon,
   CommonModule,
@@ -52,7 +51,7 @@ export class MyVehiclePage implements OnInit {
   private vehicleService = inject(VehicleService);
   vehicles: Vehicle[] = [];
 
-  constructor() {
+  constructor(private location: Location) {
     /* 🔥 ICON REGISTER */
     addIcons({
       speedometerOutline,
@@ -78,5 +77,8 @@ export class MyVehiclePage implements OnInit {
   viewLiveLocation() {
     console.log('Open Live Map Here');
   }
+  goBack() {
+  this.location.back();
+}
 
 }

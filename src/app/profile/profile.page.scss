@@ -291,3 +291,30 @@ ion-label p {
   font-size: 16px;
   font-weight: 600;
 }
+/* INPUT TEXT COLOR */
+ion-input {
+  --color: white;
+  color: white !important;
+}
+
+/* REMOVE BLUE FOCUS EFFECT */
+ion-input.input-fill-outline,
+ion-input.input-fill-solid,
+ion-input.ion-focused {
+  --highlight-color-focused: #60a5fa !important;
+  --highlight-color-valid: #60a5fa !important;
+  --highlight-color-invalid: #60a5fa !important;
+}
+
+/* LABEL / TEXT SAME COLOR */
+.editing-item ion-label,
+.editing-item h3,
+.editing-item p {
+  color: #cbd5e1 !important;
+}
+
+/* INPUT PLACEHOLDER */
+ion-input::part(native) {
+  color: white !important;
+  caret-color: #60a5fa;
+}
