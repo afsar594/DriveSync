@@ -146,8 +146,8 @@ bearing: -20
 
     this.totalDistance = 0;
 
-    const url =
-      'https://router.project-osrm.org/route/v1/driving/70.295,28.420;70.330,28.455?overview=full&geometries=geojson';
+const url =
+  'https://router.project-osrm.org/route/v1/driving/72.6736,30.1603;72.3497,30.0454?overview=full&geometries=geojson';
 
     fetch(url)
       .then(res => res.json())
@@ -216,7 +216,7 @@ animateVehicle() {
 
     i++;
 
-  }, 120);
+  }, 500);
 }
   // =========================
   // STOP
